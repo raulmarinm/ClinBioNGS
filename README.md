@@ -2,6 +2,7 @@
 ClinBioNGS is an open-source, comprehensive, and customizable bioinformatics pipeline for the analysis of somatic NGS cancer panels.
 
 ![License: Academic Use Only](https://img.shields.io/badge/license-Academic%20Use%20Only-blue)
+![Nextflow](https://img.shields.io/badge/nextflow-24.10.1-23aa62?logo=nextflow)
 
 ## 📄 License
 
