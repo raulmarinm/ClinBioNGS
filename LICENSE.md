@@ -6,7 +6,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 1. **Non-Commercial Use Only**  
    The Software is licensed for non-commercial use only. Commercial use of the Software, in whole or in part, including but not limited to use in commercial products or services, requires a separate commercial license agreement.  
-   To obtain a commercial license, please contact: rmarinm@idibell.cat or xasole@clinic.cat
+   To obtain a commercial license, please contact: xasole@clinic.cat
 
 2. **Attribution Required**  
    Proper acknowledgment must be given in any publications or derivative works that use or incorporate the Software. Please cite:
