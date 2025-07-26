@@ -1,0 +1,53 @@
+cff-version: 1.2.0
+message: "If you use ClinBioNGS in your research, please cite it as below."
+title: "ClinBioNGS: A Clinical Bioinformatics Pipeline for Integrated Analysis of Somatic NGS Cancer Panels"
+authors:
+  - family-names: Marín
+    given-names: Raúl
+    orcid: https://orcid.org/0000-0003-4877-4032
+  - family-names: Alay
+    given-names: Ania
+  - family-names: Ajenjo-Bauza
+    given-names: Maria
+  - family-names: Hijazo-Pechero
+    given-names: Sara
+  - family-names: Montironi
+    given-names: Carla
+  - family-names: Hernández-Illán
+    given-names: Eva
+  - family-names: Jares
+    given-names: Pedro
+  - family-names: Azuara
+    given-names: Daniel
+  - family-names: Varela
+    given-names: Mar
+  - family-names: Vidal
+    given-names: August
+  - family-names: Puig-Butillé
+    given-names: Joan Anton
+  - family-names: Lázaro
+    given-names: Conxi
+  - family-names: Moreno
+    given-names: Víctor
+  - family-names: Cordero
+    given-names: David
+  - family-names: Nadal
+    given-names: Ernest
+  - family-names: Solé
+    given-names: Xavier
+version: 1.0.0
+date-released: 2025-07-26  # Update after official release
+license: Custom: Academic and Research Use Only
+repository-code: https://github.com/raulmarinm/ClinBioNGS
+url: https://github.com/raulmarinm/ClinBioNGS
+doi: # Add after acceptance
+keywords:
+  - bioinformatics
+  - open-source
+  - somatic variants
+  - NGS
+  - cancer panels
+  - clinical genomics
+  - Nextflow
+type: software
+
