@@ -1,0 +1,9 @@
+[Header],,
+RunName,RUN01,
+,,
+[Data],,
+Sample_ID,Barcode,Sample_Type
+Sample01_DNA,IonHDdual_0001,DNA
+Sample01_RNA,IonHDdual_0003,RNA
+Sample02_DNA,IonHDdual_0002,DNA
+Sample02_RNA,IonHDdual_0004,RNA

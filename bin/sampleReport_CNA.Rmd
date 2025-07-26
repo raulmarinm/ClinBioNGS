@@ -1,0 +1,482 @@
+
+Overview {#overview_cna data-orientation=rows data-navmenu="CNA"}
+==================================================================
+
+Row
+-------------------------------------
+
+###
+
+```{r cna_overview}
+aux_vars <- cna %>% filter(NO_FLAGS & !TIER_IV)
+aux_N <- nrow(aux_vars)
+cna_arm_N <- nrow(cna_arm)
+aux_label <- "CNA"
+aux_caption <- paste0(aux_N, " gene CNAs TierI-III")
+
+valueBox(aux_label, color = "black", caption = aux_caption, href  = "#main")
+
+rm(aux_vars, aux_N, cna_arm_N, aux_label, aux_caption)
+```
+
+###
+
+```{r cna_overview_tierI}
+aux_vars <- cna %>% filter(NO_FLAGS & TIER_I)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 1, aux_vars$LABEL, paste0(aux_N, " Tier I"))
+aux_caption <- ifelse(aux_N == 0, 
+  ifelse(doid %in% ".", "strong clinical significance (No Tier I CNAs due to unknown tumor type)", "strong clinical significance"), 
+  ifelse(aux_N == 1, "Tier I (strong clinical significance)", 
+    paste0(paste(sort(aux_vars$LABEL), collapse = ", "), " (strong clinical significance)")))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier IA"], "grey"), href  = "#plot_cna")
+
+rm(aux_vars, aux_N, aux_label, aux_caption)
+```
+
+###
+
+```{r cna_overview_tierII}
+aux_vars <- cna %>% filter(NO_FLAGS & TIER_II)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 1, aux_vars$LABEL, paste0(aux_N, " Tier II"))
+aux_caption <- ifelse(aux_N == 0, "potential clinical signiﬁcance", ifelse(
+  aux_N == 1, "Tier II (potential clinical signiﬁcance)", 
+  paste0(paste(sort(aux_vars$LABEL), collapse = ", "), " (potential clinical signiﬁcance)")))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier IIC"], "grey"), href  = "#plot_cna")
+
+rm(aux_vars, aux_N, aux_label, aux_caption)
+```
+
+###
+
+```{r cna_overview_tierIII}
+aux_vars <- cna %>% filter(NO_FLAGS & TIER_III)
+aux_N <- nrow(aux_vars)
+aux_label <- paste0(aux_N, " Tier III")
+aux_caption <- ifelse(aux_N == 0, "unknown clinical significance", 
+  paste0(paste(sort(aux_vars$LABEL), collapse = ", "), " (unknown clinical significance)"))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier III"], "grey"), href  = "#plot_cna")
+
+rm(aux_vars, aux_N, aux_label, aux_caption)
+```
+
+
+
+Row {data-height=350}
+-------------------------------------
+
+### Gene CNA FLAGS
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["OK"]`">&nbsp;OK (no flags)&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(cna %>% filter(NO_FLAGS))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;LowAmp (2<CN<`r cna_CN_AMP_OK`)&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(cna %>% filter(LOW_AMP))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;LowDel (`r cna_CN_DEL_OK`<CN<2)&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(cna %>% filter(LOW_DEL))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;LowBins (<`r cna_min_target_bins`)&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(cna %>% filter(LOWBINS))`</font></b><br>
+
+
+
+### Clinical status (AMP/ASCO/CAP)
+
+#### **OK** (N=`r nrow(cna %>% filter(NO_FLAGS))`)
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IA"]`">&nbsp;Tier I&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(cna %>% filter(NO_FLAGS & TIER_I))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IIC"]`">&nbsp;Tier II&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(cna %>% filter(NO_FLAGS & TIER_II))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier III"]`">&nbsp;Tier III&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(cna %>% filter(NO_FLAGS & TIER_III))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IV"]`">&nbsp;Tier IV&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(cna %>% filter(NO_FLAGS & TIER_IV))`</font></b><br>
+
+#### **Amplification** (N=`r nrow(amp)`)
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IA"]`">&nbsp;Tier I&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(amp %>% filter(TIER_I))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IIC"]`">&nbsp;Tier II&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(amp %>% filter(TIER_II))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier III"]`">&nbsp;Tier III&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(amp %>% filter(TIER_III))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IV"]`">&nbsp;Tier IV&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(amp %>% filter(TIER_IV))`</font></b><br>
+
+#### **Deletion** (N=`r nrow(del)`)
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IA"]`">&nbsp;Tier I&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(del %>% filter(TIER_I))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IIC"]`">&nbsp;Tier II&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(del %>% filter(TIER_II))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier III"]`">&nbsp;Tier III&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(del %>% filter(TIER_III))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IV"]`">&nbsp;Tier IV&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(del %>% filter(TIER_IV))`</font></b><br>
+
+
+
+### Tier I/II CNAs
+
+```{r cna_overview_tierI-II_amp}
+aux_vars <- amp %>% filter(CLIN_RELEVANT)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(sort(aux_vars$GENE), collapse = ", "), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, all_colors["Tier IA"], "white")
+```
+
+#### **Amplification** (CN>2)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+```{r cna_overview_tierI-II_del}
+aux_vars <- del %>% filter(CLIN_RELEVANT)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(sort(aux_vars$GENE), collapse = ", "), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, all_colors["Tier IA"], "white")
+```
+
+#### **Deletion** (CN<2)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+
+### Amplifications (CN>2)
+
+```{r cna_overview_highamp}
+aux_vars <- amp %>% filter(CLASS %in% "HighAmp")
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(sort(aux_vars$GENE), collapse = ", "), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, all_colors["HighAmp"], "white")
+```
+
+#### **HIGH** (CN`r paste0("\u2265", cna_CN_AMP_OK)`)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+```{r cna_overview_lowamp}
+aux_vars <- amp %>% filter(CLASS %in% "LowAmp")
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(sort(aux_vars$GENE), collapse = ", "), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, all_colors["LowAmp"], "white")
+```
+
+#### **LOW** (2<CN<`r cna_CN_AMP_OK`)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+```{r cna_overview_amp_lowbins}
+aux_vars <- amp %>% filter(LOWBINS)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(sort(aux_vars$GENE), collapse = ", "), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, "grey", "white")
+```
+
+#### **LowBins**  (<`r cna_min_target_bins`)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+
+### Deletions (CN<2)
+
+```{r cna_overview_highdel}
+aux_vars <- del %>% filter(CLASS %in% "HighDel")
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(sort(aux_vars$GENE), collapse = ", "), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, all_colors["HighDel"], "white")
+```
+
+#### **HIGH** (CN`r paste0("\u2264", cna_CN_DEL_OK)`)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+```{r cna_overview_lowdel}
+aux_vars <- del %>% filter(CLASS %in% "LowDel")
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(sort(aux_vars$GENE), collapse = ", "), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, all_colors["LowDel"], "white")
+```
+
+#### **LOW** (`r cna_CN_DEL_OK`<CN<2)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+```{r cna_overview_del_lowbins}
+aux_vars <- del %>% filter(LOWBINS)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(sort(aux_vars$GENE), collapse = ", "), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, "grey", "white")
+```
+
+#### **LowBins** (<`r cna_min_target_bins`)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+
+::: {.header-text}
+Clinical evidences (CIViC resource)
+:::
+
+### **Predictive**
+
+```{r cna_overview_predictive}
+aux_df <- civic_predictive %>% filter(MOLECULAR_ID %in% cna$CIViC_MOLECULAR_ID)
+aux_kable <- kable(aux_df, align = "c") %>% 
+  kable_styling(bootstrap_options = c("striped", "condensed"), fixed_thead = TRUE, font_size = 16)
+
+if(nrow(aux_df)){column_spec(aux_kable, 1, bold = TRUE)} else {aux_kable}
+
+rm(aux_df, aux_kable)
+```
+
+### **Prognostic**
+
+```{r cna_overview_prognostic}
+aux_df <- civic_prognostic %>% filter(MOLECULAR_ID %in% cna$CIViC_MOLECULAR_ID)
+aux_kable <- kable(aux_df, align = "c") %>% 
+  kable_styling(bootstrap_options = c("striped", "condensed"), fixed_thead = TRUE, font_size = 16)
+
+if(nrow(aux_df)){column_spec(aux_kable, 1, bold = TRUE)} else {aux_kable}
+
+rm(aux_df, aux_kable)
+```
+
+### **Diagnostic**
+
+```{r cna_overview_diagnostic}
+aux_df <- civic_diagnostic %>% filter(MOLECULAR_ID %in% cna$CIViC_MOLECULAR_ID)
+aux_kable <- kable(aux_df, align = "c") %>% 
+  kable_styling(bootstrap_options = c("striped", "condensed"), fixed_thead = TRUE, font_size = 16)
+
+if(nrow(aux_df)){column_spec(aux_kable, 1, bold = TRUE)} else {aux_kable}
+
+rm(aux_df, aux_kable)
+```
+
+
+
+Genome visualization {#plot_cna data-orientation=rows data-navmenu="CNA"}
+==================================================================
+
+Row
+-------------------------------------
+
+```{r cna_plot_genome, results = "asis"}
+aux_plot <- list.files(pattern = paste0(sample, "_DNA_CNA.png"))
+
+if(length(aux_plot)){cat(sprintf("\n### \n![](%s)\n", aux_plot))}
+
+rm(aux_plot)
+```
+
+
+Chromosome visualization {data-orientation=rows data-navmenu="CNA"}
+==================================================================
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+
+```{r cna_plot_bychr, results = "asis"}
+for(chr in cna_chr_levels) {
+  aux_plot <- list.files(pattern = paste0(sample, "_DNA_CNA_ByChr_", chr, ".png"))
+  if(length(aux_plot)){cat(sprintf(paste0("\n### **", chr, "**\n![](%s)\n"), aux_plot))}
+  rm(aux_plot)
+}
+rm(chr)
+```
+
+
+Gene visualization {data-orientation=rows data-navmenu="CNA"}
+==================================================================
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+
+```{r cna_plot_bygene, results = "asis"}
+aux_df <- cna_all %>% filter(WHITELIST | CLIN_RELEVANT | cna_plot_bygene_all)
+for(gene in sort(aux_df$GENE)) {
+  aux_plot <- list.files(pattern = paste0(sample, "_DNA_CNA_ByGene_", gene, ".png"))
+  if(length(aux_plot)){cat(sprintf(paste0("\n### **", gene, "**\n![](%s)\n"), aux_plot))}
+  rm(aux_plot)
+}
+rm(gene)
+```
+
+```{r cna_gene_noplot, results = "asis", eval = nrow(aux_df) == 0}
+cat("\n* **NO** gene plots.\n")
+```
+
+```{r}
+rm(aux_df)
+```
+
+
+
+Gene datatable {data-orientation=columns data-navmenu="CNA"}
+==================================================================
+
+Column {.sidebar data-width=250}
+-----------------------------------------------
+
+```{r cna_gene_filters, eval = nrow(cna_gene_table) != 0}
+shared_data <- SharedData$new(cna_gene_table)
+
+filter_checkbox("CNA_OK", "OK (no flags)", shared_data, ~NO_FLAGS, columns = 2, allLevels = TRUE)
+filter_checkbox("CNA_CLIN_STATUS", "CLINICAL status", shared_data, ~CLIN_STATUS, columns = 2, allLevels = TRUE)
+filter_checkbox("CNA_GENE", "CNA", shared_data, ~CNA, columns = 2, allLevels = TRUE)
+filter_checkbox("CNA_CLASS", "CNA CLASS", shared_data, ~CLASS, columns = 2, allLevels = TRUE)
+filter_checkbox("CNA_CN", "Copy number (CN)", shared_data, ~CN, columns = 4)
+filter_checkbox("CNA_LOWBINS", "LowBins", shared_data, ~LOWBINS, columns = 2, allLevels = TRUE)
+filter_checkbox("CNA_WHITELIST", "WHITELIST gene", shared_data, ~WHITELIST, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_ONCOGENE", "ONCOGENE", shared_data, ~ONCOGENE, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_TSG", "TSG", shared_data, ~TSG, columns = 2, allLevels = TRUE)
+
+filter_select("CNA_GENE", "GENE", shared_data, ~GENE, multiple = TRUE)
+filter_select("CNA_CHROM", "CHROMOSOME", shared_data, ~CHROM, multiple = TRUE, allLevels = TRUE)
+filter_select("CNA_FLAGS", "FLAGS", shared_data, ~FLAGS, multiple = TRUE)
+
+filter_slider("CNA_GENIE_AF", "GENIE frequency", shared_data, ~GENIE_FREQ, min = 0, max = 0.3, step = 0.005, ticks = TRUE)
+filter_slider("CNA_AF_SAMPLES", "Sample frequency", shared_data, ~AF_SAMPLES, min = 0, max = 1, step = 0.1, ticks = TRUE)
+filter_slider("CNA_LOG2", "Log(2)-ratio", shared_data, ~LOG2, ticks = FALSE, round = 2)
+filter_slider("CNA_BINS", "Target bins", shared_data, ~BINS_TARGET, ticks = FALSE)
+```
+
+Column
+---------------------------------------------
+
+### Gene CNAs
+
+```{r cna_gene_table, eval = nrow(cna_gene_table) != 0}
+datatable(
+  shared_data, class = "display", extensions = c("Buttons", "ColReorder"), rownames = FALSE,
+  options = list(
+    bPaginate = FALSE, searchHighlight = TRUE, dom = "BfrtiR", buttons = c("copy", "csv","excel"),
+    initComplete = JS(
+    "function(settings, json) {",
+    paste0("$(this.api().table().header()).css({'background-color': '", all_colors["primary"], "', 'color': '#fff'});"),
+    "}"))) %>%
+  formatStyle("CLIN_RELEVANT", target = "row", fontWeight = styleEqual("TRUE", "bold"), color = styleEqual("TRUE", all_colors["CLIN_RELEVANT"])) %>%
+  formatStyle("FLAGS", "NO_FLAGS", fontWeight = styleEqual(c("TRUE", "FALSE"), rep("bold", 2)), 
+    color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("CLIN_STATUS", fontWeight = styleEqual(clinical_levels, rep("bold", length(clinical_levels))),
+    color = styleEqual(clinical_levels, all_colors[clinical_levels])) %>%
+  formatStyle("CNA", "CLASS", color = styleEqual(cna_class_levels, all_colors[cna_class_levels]), 
+    fontWeight = styleEqual(cna_class_levels, rep("bold", length(cna_class_levels)))) %>%
+  formatStyle("CLASS", color = styleEqual(cna_class_levels, all_colors[cna_class_levels]), 
+    fontWeight = styleEqual(cna_class_levels, rep("bold", length(cna_class_levels)))) %>%
+  formatStyle("CLIN_RELEVANT", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("GENE", "WHITELIST", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("WHITELIST", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("NO_FLAGS", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("LOW_AMP", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("LOW_DEL", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("LOWBINS", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("ONCOGENE", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("TSG", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("DRIVER", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("CANONICAL_DRIVER", fontWeight = styleEqual("TRUE", "bold"))
+
+rm(shared_data)
+```
+
+
+```{r cna_gene_notable, results = 'asis', eval = nrow(cna_gene_table) == 0}
+cat("\n* **NO** gene CNAs.\n")
+```
+
+
+
+Arm datatable {data-orientation=columns data-navmenu="CNA"}
+==================================================================
+
+Column {.sidebar data-width=250}
+-----------------------------------------------
+
+```{r cna_arm_filters, eval = nrow(cna_arm_all) != 0}
+shared_data <- SharedData$new(cna_arm_table)
+
+filter_checkbox("CNA_ARM", "CNA", shared_data, ~CNA, columns = 3, allLevels = TRUE)
+filter_checkbox("CNA_CHROM_ARM", "CHROMOSOME", shared_data, ~CHROM, columns = 3, allLevels = TRUE)
+filter_checkbox("CNA_SIDE", "SIDE", shared_data, ~SIDE, columns = 2)
+filter_slider("CNA_ARM_LOG2", "Log(2)-ratio", shared_data, ~LOG2, ticks = FALSE, round = 2)
+filter_slider("CNA_AF_SAMPLES", "Sample frequency", shared_data, ~AF_SAMPLES, min = 0, max = 1, step = 0.1, ticks = TRUE)
+```
+
+
+
+Column
+---------------------------------------------
+
+### Arm CNAs
+
+```{r cna_arm_table, eval = nrow(cna_arm_all) != 0}
+datatable(
+  shared_data, class = "display", extensions = c("Buttons", "ColReorder"), rownames = FALSE,
+  options = list(
+    bPaginate = FALSE, searchHighlight = TRUE, dom = "BfrtiR", buttons = c("copy", "csv","excel"),
+    initComplete = JS(
+    "function(settings, json) {",
+    paste0("$(this.api().table().header()).css({'background-color': '", all_colors["primary"], "', 'color': '#fff'});"),
+    "}"))) %>%
+  formatStyle(
+    "CNA", color = styleEqual(cna_arm_levels, all_colors[cna_arm_levels]), 
+    fontWeight = styleEqual(cna_arm_levels, rep("bold", length(cna_arm_levels))))
+
+rm(shared_data)
+```
+
+
+```{r, results = 'asis', eval = nrow(cna_arm_all) == 0}
+cat("\n* **NO** arm CNAs.\n")
+```
+

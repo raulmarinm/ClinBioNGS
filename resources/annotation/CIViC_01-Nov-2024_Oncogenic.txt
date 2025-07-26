@@ -1,0 +1,23 @@
+ALTERATION	EVIDENCE_LEVEL	EVIDENCE_RATING	EVIDENCE_TYPE	EFFECT	MOLECULAR_ID	VARIANT_ID	VARIANT_TYPE	VARIANT_GROUP	EVIDENCE_SCORE	ORIGIN
+BCOR_ITD_	B	4	Oncogenic	Oncogenicity	4547	4527	tandem_duplication		165	Somatic
+COL1A1::PDGFB	B	3	Oncogenic	Oncogenicity	2841	2972	transcript_fusion		27.5	Somatic
+CIC::DUX4	C	3	Oncogenic	Oncogenicity	3121	3252	transcript_fusion		37.5	Somatic
+SFPQ::ABL1	C	3	Oncogenic	Oncogenicity	3156	3287	transcript_fusion	ABL1 fusions in B-ALL	32.5	Somatic
+ETV6::NTRK3	D	4	Oncogenic	Oncogenicity	779	801	transcript_fusion		314	Somatic
+ZFTA::RELA	D	4	Oncogenic	Oncogenicity	4548	4528	transcript_fusion		103	N/A
+EML4::NTRK3	D	4	Oncogenic	Oncogenicity	4167	4299	transcript_fusion		69.5	Somatic
+ASPSCR1::TFE3	D	4	Oncogenic	Oncogenicity	3490	3622	transcript_fusion		59	N/A
+FGFR3_S249C	D	4	Oncogenic	Oncogenicity	624	628	missense_variant		21	Somatic
+EZH2_Y646F	D	4	Oncogenic	Oncogenicity	2858	2989	missense_variant		14	Somatic
+KRAS_A11_G12insGA	D	4	Oncogenic	Oncogenicity	3210	3342			4	Somatic
+KRAS_G10_A11insG	D	4	Oncogenic	Oncogenicity	3209	3341			4	Somatic
+LMNA::NTRK1	D	3	Oncogenic	Oncogenicity	1252	1278	transcript_fusion	NTRK1 Fusions	115	Somatic
+KIAA1549::BRAF	D	3	Oncogenic	Oncogenicity	614	618	transcript_fusion	BRAF Fusions	109.5	Somatic
+FGFR3_Y373C	D	3	Oncogenic	Oncogenicity	2277	2404	missense_variant		21	Somatic
+ARAF_S214C	D	3	Oncogenic	Oncogenicity	10	10	missense_variant		14	Somatic
+QKI::NTRK2	D	3	Oncogenic	Oncogenicity	4564	4536	transcript_fusion		12.5	N/A
+KRAS_Q61H	D	3	Oncogenic	Oncogenicity	881	907	missense_variant		10.5	Somatic
+ARAF_S214F	D	3	Oncogenic	Oncogenicity	4338	4410			3	Somatic
+BRAF_G463E	D	3	Oncogenic	Oncogenicity	3300	3432			3	Unknown
+EGFR_K754E	D	3	Oncogenic	Oncogenicity	4337	4409			3	Somatic
+EGFR_S645C	D	3	Oncogenic	Oncogenicity	4336	4408			3	Somatic

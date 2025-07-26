@@ -1,0 +1,556 @@
+
+Overview {#overview_vars data-orientation=rows data-navmenu="SNV and InDel"}
+==================================================================
+
+Row
+-------------------------------------
+
+### 
+
+```{r snvindel_overview}
+aux_N <- nrow(main_vars)
+aux_label <- "SNV/InDel"
+aux_caption <- paste0(aux_N, " variants", ifelse(is_panel_hotspots, " (panel hotspot)", ""), " TierI-III")
+
+valueBox(aux_label, color = "black", caption = aux_caption, href  = "#main")
+
+rm(aux_N, aux_label, aux_caption)
+```
+
+###
+
+```{r snvindel_overview_tierI}
+aux_vars <- tier1_vars %>% filter(VAR %in% main_vars$VAR)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 1, aux_vars$MUT_ID, paste0(aux_N, " Tier I"))
+aux_caption <- ifelse(aux_N == 0, 
+  ifelse(doid %in% ".", "strong clinical significance (No Tier I variants due to unknown tumor type)", "strong clinical significance"), 
+  ifelse(aux_N == 1, "Tier I (strong clinical significance)", 
+    paste0(paste(sort(aux_vars$MUT_ID), collapse = ", "), " (strong clinical significance)")))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier IA"], "grey"), href  = "#plot_vars")
+
+rm(aux_vars, aux_N, aux_label, aux_caption)
+```
+
+###
+
+```{r snvindel_overview_tierII}
+aux_vars <- tier2_vars %>% filter(VAR %in% main_vars$VAR)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 1, aux_vars$MUT_ID, paste0(aux_N, " Tier II"))
+aux_caption <- ifelse(aux_N == 0, "potential clinical signiﬁcance", ifelse(
+  aux_N == 1, "Tier II (potential clinical signiﬁcance)", 
+  paste0(paste(sort(aux_vars$MUT_ID), collapse = ", "), " (potential clinical signiﬁcance)")))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier IIC"], "grey"), href  = "#plot_vars")
+
+rm(aux_vars, aux_N, aux_label, aux_caption)
+```
+
+###
+
+```{r snvindel_overview_tierIII}
+aux_vars <- tier3_vars %>% filter(VAR %in% main_vars$VAR)
+aux_N <- nrow(aux_vars)
+aux_label <- paste0(aux_N, " Tier III")
+aux_caption <- "unknown clinical significance"
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier III"], "grey"), href  = "#plot_vars")
+
+rm(aux_vars, aux_N, aux_label)
+```
+
+
+
+Row {data-height=350}
+-------------------------------------
+
+### Variant FLAGS
+
+#### **PASS** (N=`r nrow(pass_vars)`)
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["OK"]`">&nbsp;OK (no flags)&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(ok_vars)`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;Germline (>`r vars_somatic_max_pvaf*100`% pVAF or >`r vars_somatic_max_vaf*100`% VAF)&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(pass_vars %>% filter(GERMLINE))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;OutCTR&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(pass_vars %>% filter(!CTR_REGION & !(CANCER_HOTSPOT | PANEL_HOTSPOT)))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;ProblematicRegion&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(pass_vars %>% filter(PROBLEMATIC_REGION & !(CANCER_HOTSPOT | PANEL_HOTSPOT)))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;Recurrent&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(pass_vars %>% filter(RECURRENT))`</font></b><br>
+
+#### **NoCall** (N=`r nrow(nocall_vars)`)
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;LowCallers (<`r vars_min_callers`)&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(nocall_vars %>% filter(LowCallers))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;LowAD (<`r vars_min_ad`)&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(nocall_vars %>% filter(LowAD))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;LowDP (<`r vars_min_dp`)&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(nocall_vars %>% filter(LowDP))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;LowVAF (<`r vars_min_vaf*100`%)&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(nocall_vars %>% filter(LowVAF))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;Blacklist&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(nocall_vars %>% filter(PANEL_BLACKLIST & !PANEL_HOTSPOT))`</font></b><br>
+
+
+### Clinical status (AMP/ASCO/CAP)
+
+#### **OK** (N=`r nrow(ok_vars)`)
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IA"]`">&nbsp;Tier I&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(tier1_vars %>% filter(NO_FLAGS))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IIC"]`">&nbsp;Tier II&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(tier2_vars %>% filter(NO_FLAGS))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier III"]`">&nbsp;Tier III&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(tier3_vars %>% filter(NO_FLAGS))`</font></b><br>
+
+#### **SOMATIC** (N=`r nrow(somatic_vars)`)
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IA"]`">&nbsp;Tier I&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(tier1_vars %>% filter(!GERMLINE))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IIC"]`">&nbsp;Tier II&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(tier2_vars %>% filter(!GERMLINE))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier III"]`">&nbsp;Tier III&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(tier3_vars %>% filter(!GERMLINE))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IV"]`">&nbsp;Tier IV&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(tier4_vars %>% filter(!GERMLINE))` (not included in the report)</font></b><br>
+
+#### **GERMLINE** (N=`r nrow(germline_vars)`)
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IA"]`">&nbsp;Tier I&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(tier1_vars %>% filter(GERMLINE))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IIC"]`">&nbsp;Tier II&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(tier2_vars %>% filter(GERMLINE))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier III"]`">&nbsp;Tier III&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(tier3_vars %>% filter(GERMLINE))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IV"]`">&nbsp;Tier IV&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(tier4_vars %>% filter(GERMLINE))` (not included in the report)</font></b><br>
+
+
+### Oncogenicity (ClinGen/CGC/VICC)
+
+#### **OK** (N=`r nrow(ok_vars)`)
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Oncogenic"]`">&nbsp;Oncogenic&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(ok_vars %>% filter(ONCOGENICITY %in% "Oncogenic"))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Likely Oncogenic"]`">&nbsp;Likely Oncogenic&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(ok_vars %>% filter(ONCOGENICITY %in% "Likely Oncogenic"))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["VUS"]`">&nbsp;VUS&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(ok_vars %>% filter(ONCOGENICITY %in% "VUS"))`</font></b><br>
+
+#### **SOMATIC** (N=`r nrow(somatic_vars)`)
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Oncogenic"]`">&nbsp;Oncogenic&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(somatic_vars %>% filter(ONCOGENICITY %in% "Oncogenic"))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Likely Oncogenic"]`">&nbsp;Likely Oncogenic&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(somatic_vars %>% filter(ONCOGENICITY %in% "Likely Oncogenic"))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["VUS"]`">&nbsp;VUS&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(somatic_vars %>% filter(ONCOGENICITY %in% "VUS"))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Likely Benign"]`">&nbsp;Likely Benign&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(somatic_vars %>% filter(ONCOGENICITY %in% "Likely Benign"))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Benign"]`">&nbsp;Benign&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(somatic_vars %>% filter(ONCOGENICITY %in% "Benign"))`</font></b><br>
+
+#### **GERMLINE** (N=`r nrow(germline_vars)`)
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Oncogenic"]`">&nbsp;Oncogenic&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(germline_vars %>% filter(ONCOGENICITY %in% "Oncogenic"))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Likely Oncogenic"]`">&nbsp;Likely Oncogenic&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(germline_vars %>% filter(ONCOGENICITY %in% "Likely Oncogenic"))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["VUS"]`">&nbsp;VUS&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(germline_vars %>% filter(ONCOGENICITY %in% "VUS"))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Likely Benign"]`">&nbsp;Likely Benign&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(germline_vars %>% filter(ONCOGENICITY %in% "Likely Benign"))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Benign"]`">&nbsp;Benign&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(germline_vars %>% filter(ONCOGENICITY %in% "Benign"))`</font></b><br>
+
+
+### Tier I/II variants
+
+```{r snvindel_overview_tierI-II_ok}
+aux_vars <- ok_vars %>% filter(CLIN_RELEVANT)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(aux_vars$LABEL, collapse = " <br>"), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, all_colors["Tier IA"], "white")
+```
+
+#### **OK** (N=`r aux_N`)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+```{r snvindel_overview_tierI-II_somatic}
+aux_vars <- somatic_vars %>% filter(CLIN_RELEVANT)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(aux_vars$LABEL, collapse = " <br>"), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, all_colors["Tier IA"], "white")
+```
+
+#### **SOMATIC** (N=`r aux_N`)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+```{r snvindel_overview_tierI-II_germline}
+aux_vars <- germline_vars %>% filter(CLIN_RELEVANT)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(aux_vars$LABEL, collapse = " <br>"), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, all_colors["Tier IA"], "white")
+```
+
+
+#### **GERMLINE** (N=`r aux_N`)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+### Oncogenic variants
+
+```{r snvindel_overview_oncogenic_ok}
+aux_vars <- ok_vars %>% filter(ONCOGENICITY %in% "Oncogenic")
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(aux_vars$LABEL, collapse = " <br>"), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, all_colors["Oncogenic"], "white")
+```
+
+#### **OK** (N=`r aux_N`)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+```{r snvindel_overview_oncogenic_somatic}
+aux_vars <- somatic_vars %>% filter(ONCOGENICITY %in% "Oncogenic")
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(aux_vars$LABEL, collapse = " <br>"), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, all_colors["Oncogenic"], "white")
+```
+
+#### **SOMATIC** (N=`r aux_N`)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+```{r snvindel_overview_oncogenic_germline}
+aux_vars <- germline_vars %>% filter(ONCOGENICITY %in% "Oncogenic")
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(aux_vars$LABEL, collapse = " <br>"), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, all_colors["Oncogenic"], "white")
+```
+
+#### **GERMLINE** (N=`r aux_N`)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+
+::: {.header-text}
+Clinical evidences (CIViC resource)
+:::
+
+### **Predictive**
+
+```{r snvindel_overview_predictive}
+aux_df <- civic_predictive %>% filter(MOLECULAR_ID %in% pass_vars$CIViC_MOLECULAR_ID)
+aux_kable <- kable(aux_df, align = "c") %>% 
+  kable_styling(bootstrap_options = c("striped", "condensed"), fixed_thead = TRUE, font_size = 16)
+
+if(nrow(aux_df)){column_spec(aux_kable, 1, bold = TRUE)} else {aux_kable}
+
+rm(aux_df, aux_kable)
+```
+
+### **Prognostic**
+
+```{r snvindel_overview_prognostic}
+aux_df <- civic_prognostic %>% filter(MOLECULAR_ID %in% pass_vars$CIViC_MOLECULAR_ID)
+aux_kable <- kable(aux_df, align = "c") %>% 
+  kable_styling(bootstrap_options = c("striped", "condensed"), fixed_thead = TRUE, font_size = 16)
+
+if(nrow(aux_df)){column_spec(aux_kable, 1, bold = TRUE)} else {aux_kable}
+
+rm(aux_df, aux_kable)
+```
+
+### **Diagnostic**
+
+```{r snvindel_overview_diagnostic}
+aux_df <- civic_diagnostic %>% filter(MOLECULAR_ID %in% pass_vars$CIViC_MOLECULAR_ID)
+aux_kable <- kable(aux_df, align = "c") %>% 
+  kable_styling(bootstrap_options = c("striped", "condensed"), fixed_thead = TRUE, font_size = 16)
+
+if(nrow(aux_df)){column_spec(aux_kable, 1, bold = TRUE)} else {aux_kable}
+
+rm(aux_df, aux_kable)
+```
+
+
+
+Gene visualization {#plot_vars data-orientation=rows data-navmenu="SNV and InDel"}
+==================================================================
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+
+```{r snvindel_plots, results = "asis"}
+for(gene in unique(variants_plot$GENE_SYMBOL)) {
+  aux_plot <- list.files(pattern = paste0(sample, "_DNA_SmallVariant_", gene, ".png"))
+  if(length(aux_plot)){cat(sprintf(paste0("\n### **", gene, "**\n![](%s)\n"), aux_plot))}
+  rm(aux_plot)
+}
+```
+
+```{r snvindel_noplots, results = "asis", eval = nrow(variants_plot) == 0}
+cat("\n* **NO** SNV/InDel visualizations.\n")
+```
+
+
+
+Somatic Datatable {data-orientation=columns data-navmenu="SNV and InDel"}
+==================================================================
+
+Column {.sidebar data-width=250}
+-----------------------------------------------
+
+```{r snvindel_somatic_filters, eval = nrow(somatic_table) != 0}
+shared_data <- SharedData$new(somatic_table)
+
+filter_checkbox("VAR_OK", "OK (no flags)", shared_data, ~NO_FLAGS, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_PASS", "PASS", shared_data, ~PASS, columns = 2, allLevels = TRUE)
+if(is_panel_hotspots){filter_checkbox("VAR_PANEL_HOTSPOT", "Panel HOTSPOT", shared_data, ~PANEL_HOTSPOT, columns = 2, allLevels = TRUE)}
+if(is_iontorrent){filter_checkbox("VAR_INDEL_1BP", "1bp-InDel", shared_data, ~INDEL_1BP, columns = 2, allLevels = TRUE)}
+filter_checkbox("VAR_WHITELIST", "WHITELIST gene", shared_data, ~GENE_WHITELIST, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_MMR", "MMR gene", shared_data, ~MMR_GENE, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_NMD", "NMD escape", shared_data, ~NMD_ESCAPE, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_CtrRegion", "CTR region", shared_data, ~CTR_REGION, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_PANEL_BLACKLIST", "Panel blacklist", shared_data, ~PANEL_BLACKLIST, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_CLIN_STATUS", "CLINICAL status", shared_data, ~CLIN_STATUS, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_ONCOGENICITY", "ONCOGENICITY", shared_data, ~ONCOGENICITY, columns = 1, allLevels = TRUE)
+filter_checkbox("VAR_ClinVar_Pathogenic", "ClinVar pathogenic", shared_data, ~ClinVar_PATHOGENIC, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_Predictor_Pathogenic", "PREDICTOR pathogenic", shared_data, ~PREDICTOR_PATHOGENIC, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_Predictor_Benign", "PREDICTOR benign", shared_data, ~PREDICTOR_BENIGN, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_CLASS", "CLASS", shared_data, ~CLASS, columns = 1, allLevels = TRUE)
+filter_checkbox("VAR_OVERLAP_CALLERS", "CALLERS (overlap)", shared_data, ~OVERLAP_CALLERS, columns = 4)
+filter_checkbox("VAR_MATCH_CALLERS", "CALLERS (match)", shared_data, ~MATCH_CALLERS, columns = 4)
+filter_checkbox("VAR_CONSEQUENCE", "CONSEQUENCE (VEP)", shared_data, ~CONSEQUENCE, columns = 1)
+filter_checkbox("VAR_IMPACT", "IMPACT (VEP)", shared_data, ~IMPACT, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_HOTSPOT", "Cancer HOTSPOT", shared_data, ~CANCER_HOTSPOT, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_ProblematicRegion", "ProblematicRegion", shared_data, ~PROBLEMATIC_REGION, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_RECURRENT", "Recurrent", shared_data, ~RECURRENT, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_ONCOGENE", "ONCOGENE", shared_data, ~ONCOGENE, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_TSG", "TSG", shared_data, ~TSG, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_CODING", "CODING", shared_data, ~CODING, columns = 2, allLevels = TRUE)
+if(!is_iontorrent){filter_checkbox("VAR_INDEL_1BP", "1bp-InDel", shared_data, ~INDEL_1BP, columns = 2, allLevels = TRUE)}
+
+filter_select("VAR_GENE", "GENE", shared_data, ~GENE, multiple = TRUE)
+filter_select("VAR_CHROM", "CHROMOSOME", shared_data, ~CHROM, multiple = TRUE, allLevels = TRUE)
+filter_select("VAR_CALLERS", "CALLERS", shared_data, ~CALLERS, multiple = TRUE)
+filter_select("VAR_FLAGS", "FLAGS", shared_data, ~FLAGS, multiple = TRUE)
+filter_select("VAR_FILTER", "FILTER", shared_data, ~FILTER, multiple = TRUE)
+
+filter_slider("VAR_ONCO_POINTS", "Oncogenicity points", shared_data, ~ONCO_POINTS, min = 0, max = 20, step = 1, ticks = TRUE)
+filter_slider("VAR_AF", "Allelic fraction (AF)", shared_data, ~AF, min = 0, max = 1, step = 0.05, ticks = TRUE)
+filter_slider("VAR_DP", "Sequencing depth (DP)", shared_data, ~DP, ticks = FALSE)
+filter_slider("VAR_AF_SAMPLES", "Sample frequency", shared_data, ~AF_SAMPLES, min = 0, max = 1, step = 0.1, ticks = TRUE)
+```
+
+Column
+---------------------------------------------
+
+### Somatic variants (TierI-III)
+
+```{r snvindel_somatic_table, eval = nrow(somatic_table) != 0}
+datatable(
+  shared_data, class = "display", extensions = c("Buttons", "ColReorder"), rownames = FALSE,
+  options = list(
+    bPaginate = FALSE, searchHighlight = TRUE, dom = "BfrtiR", buttons = c("copy", "csv","excel"),
+    initComplete = JS(
+    "function(settings, json) {",
+    paste0("$(this.api().table().header()).css({'background-color': '", all_colors["primary"], "', 'color': '#fff'});"),
+    "}"))) %>%
+  formatStyle("CLIN_RELEVANT", target = "row", fontWeight = styleEqual("TRUE", "bold"), color = styleEqual("TRUE", all_colors["CLIN_RELEVANT"])) %>%
+  formatStyle("ONCOGENICITY", target = "row", fontWeight = styleEqual(vars_onco_levels[1:2], rep("bold", 2))) %>%
+  formatStyle("FLAGS", "NO_FLAGS", fontWeight = styleEqual(c("TRUE", "FALSE"), rep("bold", 2)), 
+    color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("CLIN_STATUS", fontWeight = styleEqual(clinical_levels, rep("bold", length(clinical_levels))),
+    color = styleEqual(clinical_levels, all_colors[clinical_levels])) %>%
+  formatStyle("ONCOGENICITY", fontWeight = styleEqual(vars_onco_levels, rep("bold", length(vars_onco_levels))),
+    color = styleEqual(vars_onco_levels, all_colors[vars_onco_levels])) %>%
+  formatStyle("FILTER", "PASS", fontWeight = styleEqual(c("TRUE", "FALSE"), rep("bold", 2)), 
+    color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("CLIN_RELEVANT", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("PANEL_HOTSPOT", color = styleEqual("TRUE", all_colors["OK"])) %>%
+  formatStyle("GENE", "GENE_WHITELIST", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("GENE_WHITELIST", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("MMR_GENE", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("NMD_ESCAPE", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("ClinVar_PATHOGENIC", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("PREDICTOR_PATHOGENIC", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("PASS", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("LowCallers", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("LowAD", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("LowDP", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("LowVAF", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("PANEL_BLACKLIST", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("NO_FLAGS", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("CANCER_HOTSPOT", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("GERMLINE", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("CTR_REGION", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("PROBLEMATIC_REGION", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("RECURRENT", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("ONCOGENE", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("TSG", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("DRIVER", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("CANONICAL_DRIVER", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("CODING", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("NONCODING", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("INDEL_1BP", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("MANE_PLUS_CLINICAL", fontWeight = styleEqual("TRUE", "bold"))
+
+rm(shared_data)
+```
+
+
+```{r snvindel_somatic_notable, results = 'asis', eval = nrow(somatic_table) == 0}
+cat("\n* **NO** SOMATIC SNV/InDels.\n")
+```
+
+
+
+Germline Datatable {data-orientation=columns data-navmenu="SNV and InDel"}
+==================================================================
+
+Column {.sidebar data-width=250}
+-----------------------------------------------
+
+```{r snvindel_germline_filters, eval = nrow(germline_table) != 0}
+shared_data <- SharedData$new(germline_table)
+
+filter_checkbox("VAR_OK", "OK (no flags)", shared_data, ~NO_FLAGS, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_PASS", "PASS", shared_data, ~PASS, columns = 2, allLevels = TRUE)
+if(is_panel_hotspots){filter_checkbox("VAR_PANEL_HOTSPOT", "Panel HOTSPOT", shared_data, ~PANEL_HOTSPOT, columns = 2, allLevels = TRUE)}
+if(is_iontorrent){filter_checkbox("VAR_INDEL_1BP", "1bp-InDel", shared_data, ~INDEL_1BP, columns = 2, allLevels = TRUE)}
+filter_checkbox("VAR_WHITELIST", "WHITELIST gene", shared_data, ~GENE_WHITELIST, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_MMR", "MMR gene", shared_data, ~MMR_GENE, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_NMD", "NMD escape", shared_data, ~NMD_ESCAPE, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_CtrRegion", "CTR region", shared_data, ~CTR_REGION, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_PANEL_BLACKLIST", "Panel blacklist", shared_data, ~PANEL_BLACKLIST, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_CLIN_STATUS", "CLINICAL status", shared_data, ~CLIN_STATUS, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_ONCOGENICITY", "ONCOGENICITY", shared_data, ~ONCOGENICITY, columns = 1, allLevels = TRUE)
+filter_checkbox("VAR_ClinVar_Pathogenic", "ClinVar pathogenic", shared_data, ~ClinVar_PATHOGENIC, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_Predictor_Pathogenic", "PREDICTOR pathogenic", shared_data, ~PREDICTOR_PATHOGENIC, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_Predictor_Benign", "PREDICTOR benign", shared_data, ~PREDICTOR_BENIGN, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_CLASS", "CLASS", shared_data, ~CLASS, columns = 1, allLevels = TRUE)
+filter_checkbox("VAR_OVERLAP_CALLERS", "CALLERS (overlap)", shared_data, ~OVERLAP_CALLERS, columns = 4)
+filter_checkbox("VAR_MATCH_CALLERS", "CALLERS (match)", shared_data, ~MATCH_CALLERS, columns = 4)
+filter_checkbox("VAR_CONSEQUENCE", "CONSEQUENCE (VEP)", shared_data, ~CONSEQUENCE, columns = 1)
+filter_checkbox("VAR_IMPACT", "IMPACT (VEP)", shared_data, ~IMPACT, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_HOTSPOT", "Cancer HOTSPOT", shared_data, ~CANCER_HOTSPOT, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_ProblematicRegion", "ProblematicRegion", shared_data, ~PROBLEMATIC_REGION, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_RECURRENT", "Recurrent", shared_data, ~RECURRENT, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_ONCOGENE", "ONCOGENE", shared_data, ~ONCOGENE, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_TSG", "TSG", shared_data, ~TSG, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_CODING", "CODING", shared_data, ~CODING, columns = 2, allLevels = TRUE)
+if(!is_iontorrent){filter_checkbox("VAR_INDEL_1BP", "1bp-InDel", shared_data, ~INDEL_1BP, columns = 2, allLevels = TRUE)}
+
+filter_select("VAR_GENE", "GENE", shared_data, ~GENE, multiple = TRUE)
+filter_select("VAR_CHROM", "CHROMOSOME", shared_data, ~CHROM, multiple = TRUE, allLevels = TRUE)
+filter_select("VAR_CALLERS", "CALLERS", shared_data, ~CALLERS, multiple = TRUE)
+filter_select("VAR_FLAGS", "FLAGS", shared_data, ~FLAGS, multiple = TRUE)
+filter_select("VAR_FILTER", "FILTER", shared_data, ~FILTER, multiple = TRUE)
+
+filter_slider("VAR_ONCO_POINTS", "Oncogenicity points", shared_data, ~ONCO_POINTS, min = 0, max = 20, step = 1, ticks = TRUE)
+filter_slider("VAR_AF", "Allelic fraction (AF)", shared_data, ~AF, min = 0, max = 1, step = 0.05, ticks = TRUE)
+filter_slider("VAR_DP", "Sequencing depth (DP)", shared_data, ~DP, ticks = FALSE)
+filter_slider("VAR_AF_SAMPLES", "Sample frequency", shared_data, ~AF_SAMPLES, min = 0, max = 1, step = 0.1, ticks = TRUE)
+```
+
+
+
+Column
+---------------------------------------------
+
+### Putative germline variants (TierI-III)
+
+```{r snvindel_germline_table, eval = nrow(germline_table) != 0}
+datatable(
+  shared_data, class = "display", extensions = c("Buttons", "ColReorder"), rownames = FALSE,
+  options = list(
+    bPaginate = FALSE, searchHighlight = TRUE, dom = "BfrtiR", buttons = c("copy", "csv","excel"),
+    initComplete = JS(
+    "function(settings, json) {",
+    paste0("$(this.api().table().header()).css({'background-color': '", all_colors["primary"], "', 'color': '#fff'});"),
+    "}"))) %>%
+  formatStyle("CLIN_RELEVANT", target = "row", fontWeight = styleEqual("TRUE", "bold"), color = styleEqual("TRUE", all_colors["CLIN_RELEVANT"])) %>%
+  formatStyle("ONCOGENICITY", target = "row", fontWeight = styleEqual(vars_onco_levels[1:2], rep("bold", 2))) %>%
+  formatStyle("FLAGS", "NO_FLAGS", fontWeight = styleEqual(c("TRUE", "FALSE"), rep("bold", 2)), 
+    color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("CLIN_STATUS", fontWeight = styleEqual(clinical_levels, rep("bold", length(clinical_levels))),
+    color = styleEqual(clinical_levels, all_colors[clinical_levels])) %>%
+  formatStyle("ONCOGENICITY", fontWeight = styleEqual(vars_onco_levels, rep("bold", length(vars_onco_levels))),
+    color = styleEqual(vars_onco_levels, all_colors[vars_onco_levels])) %>%
+  formatStyle("FILTER", "PASS", fontWeight = styleEqual(c("TRUE", "FALSE"), rep("bold", 2)), 
+    color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("CLIN_RELEVANT", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("PANEL_HOTSPOT", color = styleEqual("TRUE", all_colors["OK"])) %>%
+  formatStyle("GENE", "GENE_WHITELIST", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("GENE_WHITELIST", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("MMR_GENE", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("NMD_ESCAPE", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("ClinVar_PATHOGENIC", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("PREDICTOR_PATHOGENIC", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("PASS", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("LowCallers", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("LowAD", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("LowDP", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("LowVAF", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("PANEL_BLACKLIST", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("NO_FLAGS", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("CANCER_HOTSPOT", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("CTR_REGION", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("PROBLEMATIC_REGION", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("RECURRENT", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("ONCOGENE", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("TSG", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("DRIVER", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("CANONICAL_DRIVER", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("CODING", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("NONCODING", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("INDEL_1BP", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("MANE_PLUS_CLINICAL", fontWeight = styleEqual("TRUE", "bold"))
+
+rm(shared_data)
+```
+
+
+```{r snvindel_germline_notable, results = 'asis', eval = nrow(germline_table) == 0}
+cat("\n* **NO** GERMLINE SNV/InDels.\n")
+```
+
+

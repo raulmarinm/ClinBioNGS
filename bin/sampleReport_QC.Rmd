@@ -1,0 +1,488 @@
+
+Overview {#overview_sampleqc data-orientation=rows data-navmenu="Sample QC"}
+==================================================================
+
+Row
+-------------------------------------
+
+###
+
+```{r qc_overview_sample}
+aux_label <- paste0(sample)
+aux_caption <- paste0("Sample ID")
+
+valueBox(aux_label, color = "black", caption = aux_caption)
+
+rm(aux_label, aux_caption)
+```
+
+###
+
+```{r qc_overview_dnaqc}
+valueBox("DNA", caption = "QC status", color = all_colors[dna_qc])
+```
+
+###
+
+```{r qc_overview_rnaqc}
+valueBox("RNA", caption = "QC status", color = all_colors[rna_qc])
+```
+
+###
+
+```{r qc_overview_tumor}
+aux_label <- ifelse(tumor != ".", ifelse(doid != ".", paste0(tumor, " (DOID:", doid, ")"), tumor), "ND")
+
+valueBox(aux_label, caption = "Tumor", color = ifelse(tumor != ".", all_colors["primary"], "grey"))
+
+rm(aux_label)
+```
+
+###
+
+```{r qc_overview_whitelist}
+aux_label <- ifelse(whitelist != ".", whitelist, "ND")
+
+valueBox(aux_label, caption = "Whitelist", color = ifelse(whitelist != ".", all_colors["primary"], "grey"))
+
+rm(aux_label)
+```
+
+###
+
+```{r qc_overview_purity}
+aux_label <- ifelse(purity != ".", paste0(purity, " %"), "ND")
+
+valueBox(aux_label, caption = "Purity", color = ifelse(purity != ".", all_colors["primary"], "grey"))
+
+rm(aux_label)
+```
+
+###
+
+```{r qc_overview_sex}
+aux_label <- ifelse(sex != ".", sex, ifelse(sex_predict != ".", sex_predict, "ND"))
+aux_caption <- ifelse(sex != ".", "Sex", ifelse(sex_predict != ".", "Sex (predicted)", "Sex"))
+aux_color <- ifelse(sex != ".", all_colors["primary"], ifelse(sex_predict != ".", all_colors["primary"], "grey"))
+
+valueBox(aux_label, caption = aux_caption, color = aux_color)
+
+rm(aux_label, aux_caption, aux_color)
+```
+
+###
+
+```{r qc_overview_age}
+aux_label <- ifelse(age != ".", age, "ND")
+
+valueBox(aux_label, caption = "Age", color = ifelse(age != ".", all_colors["primary"], "grey"))
+
+rm(aux_label)
+```
+
+
+
+Row 
+-------------------------------------
+
+### DNA metrics
+
+```{r qc_overview_dnametrics, eval = nrow(dna_metrics) != 0}
+datatable(
+  SharedData$new(dna_metrics), class = "display", extensions = c("ColReorder"), rownames = FALSE,
+  options = list(
+    bPaginate = FALSE, dom = "tR", ordering = FALSE,
+    columnDefs = list(
+      list(visible = FALSE, targets = grep("_FLAG$", colnames(dna_metrics))-1),
+      list(className = 'dt-center', targets = "_all"),
+      list(className = 'dt-head-center', targets = "_all")),
+    initComplete = JS(
+    "function(settings, json) {",
+    paste0(
+      "$(this.api().table().header()).css({'text-align': 'center', 'background-color': '", 
+      all_colors["primary"], "', 'color': '#fff'});"), "}"))) %>%
+  formatStyle(
+    "TOTAL_READS", target = 'row', fontWeight = styleEqual(dna_metrics$TOTAL_READS, "bold"),
+    fontSize = styleEqual(dna_metrics$TOTAL_READS, "120%")) %>%
+  formatStyle("TOTAL_READS", paste0(qc_parameters["TOTAL_READS"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("ALIGNED_READS", paste0(qc_parameters["ALIGNED_READS"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("PCT_ALIGNED", paste0(qc_parameters["PCT_ALIGNED"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("ONTARGET_READS", paste0(qc_parameters["ONTARGET_READS"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("PCT_ONTARGET", paste0(qc_parameters["PCT_ONTARGET"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("HQ_ALIGNED_READS", paste0(qc_parameters["HQ_ALIGNED_READS"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("PCT_HQ_ALIGNED", paste0(qc_parameters["PCT_HQ_ALIGNED"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("MEDIAN_READ_LENGTH", paste0(qc_parameters["MEDIAN_READ_LENGTH"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("MEDIAN_INSERT_SIZE", paste0(qc_parameters["MEDIAN_INSERT_SIZE"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("UNIQUE_READS", paste0(qc_parameters["UNIQUE_READS"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("PCT_DUP", paste0(qc_parameters["PCT_DUP"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("MEDIAN_COVERAGE", paste0(qc_parameters["MEDIAN_COVERAGE"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("MEAN_COVERAGE", paste0(qc_parameters["MEAN_COVERAGE"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("PCT_0.4X_MEAN", paste0(qc_parameters["PCT_0.4X_MEAN"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("PCT_100X", paste0(qc_parameters["PCT_100X"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("PCT_1000X", paste0(qc_parameters["PCT_1000X"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags]))
+
+```
+
+```{r qc_overview_nodnametrics, results = 'asis', eval = nrow(dna_metrics) == 0}
+cat("\n* **NO** DNA metrics.\n")
+```
+
+
+Row 
+-------------------------------------
+
+### RNA metrics
+
+```{r qc_overview_rnametrics, eval = nrow(rna_metrics) != 0}
+datatable(
+  SharedData$new(rna_metrics), class = "display", extensions = c("ColReorder"), rownames = FALSE,
+  options = list(
+    bPaginate = FALSE, dom = "tR", ordering = FALSE,
+    columnDefs = list(
+      list(visible = FALSE, targets = grep("_FLAG$", colnames(rna_metrics))-1),
+      list(className = 'dt-center', targets = "_all"),
+      list(className = 'dt-head-center', targets = "_all")),
+    initComplete = JS(
+    "function(settings, json) {",
+    paste0(
+      "$(this.api().table().header()).css({'text-align': 'center', 'background-color': '", 
+      all_colors["primary"], "', 'color': '#fff'});"), "}"))) %>%
+  formatStyle(
+    "TOTAL_READS", target = 'row', fontWeight = styleEqual(rna_metrics$TOTAL_READS, "bold"),
+    fontSize = styleEqual(rna_metrics$TOTAL_READS, "120%")) %>%
+  formatStyle("TOTAL_READS", paste0(qc_parameters["TOTAL_READS"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("ALIGNED_READS", paste0(qc_parameters["ALIGNED_READS"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("PCT_ALIGNED", paste0(qc_parameters["PCT_ALIGNED"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("ONTARGET_READS", paste0(qc_parameters["ONTARGET_READS"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("PCT_ONTARGET", paste0(qc_parameters["PCT_ONTARGET"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("HQ_ALIGNED_READS", paste0(qc_parameters["HQ_ALIGNED_READS"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("PCT_HQ_ALIGNED", paste0(qc_parameters["PCT_HQ_ALIGNED"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("MEDIAN_READ_LENGTH", paste0(qc_parameters["MEDIAN_READ_LENGTH"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("MEDIAN_INSERT_SIZE", paste0(qc_parameters["MEDIAN_INSERT_SIZE"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("UNIQUE_READS", paste0(qc_parameters["UNIQUE_READS"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("PCT_DUP", paste0(qc_parameters["PCT_DUP"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("MEDIAN_COVERAGE", paste0(qc_parameters["MEDIAN_COVERAGE"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("MEAN_COVERAGE", paste0(qc_parameters["MEAN_COVERAGE"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("PCT_0.4X_MEAN", paste0(qc_parameters["PCT_0.4X_MEAN"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("PCT_100X", paste0(qc_parameters["PCT_100X"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags])) %>%
+  formatStyle("PCT_1000X", paste0(qc_parameters["PCT_1000X"], "_FLAG"), color = styleEqual(qc_flags, all_colors[qc_flags]))
+
+```
+
+```{r qc_overview_nornametrics, results = 'asis', eval = nrow(rna_metrics) == 0}
+cat("\n* **NO** RNA metrics.\n")
+```
+
+
+
+
+Genome visualization {data-orientation=rows data-navmenu="Sample QC"}
+==================================================================
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+
+```{r qc_plot_genome_dna, results = "asis", eval = nrow(dna_metrics) != 0}
+aux_plot <- list.files(pattern = paste0(sample, "_DNA_GlobalCoverage.png"))
+
+if(length(aux_plot)){cat(sprintf("\n### **DNA** \n![](%s)\n", aux_plot))}
+
+rm(aux_plot)
+```
+
+```{r qc_noplot_genome_dna, results = "asis", eval = nrow(dna_metrics) == 0}
+cat("\n* **NO** DNA metrics.\n")
+```
+
+
+```{r qc_plot_genome_rna, results = "asis", eval = nrow(rna_metrics) != 0}
+aux_plot <- list.files(pattern = paste0(sample, "_RNA_GlobalCoverage.png"))
+
+if(length(aux_plot)){cat(sprintf("\n### **RNA** \n![](%s)\n", aux_plot))}
+
+rm(aux_plot)
+```
+
+```{r qc_noplot_genome_rna, results = "asis", eval = nrow(rna_metrics) == 0}
+cat(cat("\n* **NO** RNA metrics.\n"))
+```
+
+
+
+
+DNA Gene visualization {data-orientation=rows data-navmenu="Sample QC"}
+==================================================================
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+
+```{r qc_plot_bygene_dna, results = "asis", eval = nrow(dna_metrics) != 0}
+if(length(dna_genes)){
+  for(gene in dna_genes) {
+    aux_plot <- list.files(pattern = paste0(sample, "_DNA_CoverageByGene_", gene, ".png"))
+    if(length(aux_plot)){cat(sprintf(paste0("\n### **", gene, "**\n![](%s)\n"), aux_plot))}
+    rm(aux_plot)
+  }
+  rm(gene)
+} else {
+  cat("\n* **NO** DNA gene plots.\n")
+}
+```
+
+
+```{r qc_noplot_bygene_dna, results = "asis", eval = nrow(dna_metrics) == 0}
+cat("\n* **NO** DNA metrics.\n")
+```
+
+
+
+
+RNA Gene visualization {data-orientation=rows data-navmenu="Sample QC"}
+==================================================================
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+
+```{r qc_plot_bygene_rna, results = "asis", eval = nrow(rna_metrics) != 0}
+if(length(rna_genes)){
+  for(gene in rna_genes) {
+    aux_plot <- list.files(pattern = paste0(sample, "_RNA_CoverageByGene_", gene, ".png"), full.names = TRUE, recursive = TRUE)
+    if(length(aux_plot)){cat(sprintf(paste0("\n### **", gene, "**\n![](%s)\n"), aux_plot))}
+    rm(aux_plot)
+  }
+  rm(gene)
+} else {
+  cat("\n* **NO** RNA gene plots.\n")
+}
+```
+
+
+```{r qc_noplot_bygene_rna, results = "asis", eval = nrow(rna_metrics) == 0}
+cat("\n* **NO** RNA metrics.\n")
+```
+
+
+
+
+
+DNA CovByGene datatable {data-orientation=columns data-navmenu="Sample QC"}
+==================================================================
+
+Column {.sidebar data-width=200}
+-----------------------------------------------
+
+```{r qc_dnagene_filters, eval = nrow(dna_metrics) != 0}
+shared_data <- SharedData$new(dna_genecov)
+
+filter_checkbox("DNA_WHITELIST", "WHITELIST gene", shared_data, ~WHITELIST, columns = 2, allLevels = TRUE)
+filter_checkbox("DNA_LowCoverage", "Low coverage", shared_data, ~LowCoverage, columns = 2, allLevels = TRUE)
+filter_select("DNA_GENE", "GENE", shared_data, ~GENE, multiple = TRUE)
+filter_slider("DNA_COV", "Target coverage", shared_data, ~TARGET, ticks = FALSE)
+```
+
+
+Column
+---------------------------------------------
+
+### DNA gene coverage
+
+```{r qc_dnagene_table, eval = nrow(dna_metrics) != 0}
+datatable(
+  shared_data, class = "display", extensions = c("Buttons", "ColReorder"), rownames = FALSE,
+  options = list(
+    bPaginate = FALSE, searchHighlight = TRUE, dom = "BfrtiR", buttons = c("copy", "csv","excel"),
+    columnDefs = list(
+      list(visible = FALSE, targets = grep("WHITELIST|LowCoverage", colnames(dna_genecov))-1),
+      list(className = 'dt-center', targets = "_all"),
+      list(className = 'dt-head-center', targets = "_all")),
+    initComplete = JS(
+    "function(settings, json) {",
+    paste0(
+      "$(this.api().table().header()).css({'text-align': 'center', 'background-color': '", 
+      all_colors["primary"], "', 'color': '#fff'});"), "}"))) %>%
+  formatStyle("GENE", fontWeight = "bold") %>%
+  formatStyle("TARGET", fontWeight = "bold") %>%
+  formatStyle("GENE", "WHITELIST", color = styleEqual("TRUE", all_colors["primary"])) %>%
+  formatStyle("GENE", "LowCoverage", color = styleEqual("TRUE", all_colors["QC_FAIL"])) %>%
+  formatStyle("TARGET", "LowCoverage", color = styleEqual("TRUE", all_colors["QC_FAIL"]))
+
+rm(shared_data)
+```
+
+```{r qc_dnagene_notable, results = 'asis', eval = nrow(dna_metrics) == 0}
+cat("\n* **NO** DNA metrics.\n")
+```
+
+
+
+
+
+RNA CovByGene datatable {data-orientation=columns data-navmenu="Sample QC"}
+==================================================================
+
+Column {.sidebar data-width=200}
+-----------------------------------------------
+
+```{r qc_rnagene_filters, eval = nrow(rna_metrics) != 0}
+shared_data <- SharedData$new(rna_genecov)
+
+filter_checkbox("RNA_WHITELIST", "WHITELIST gene", shared_data, ~WHITELIST, columns = 2, allLevels = TRUE)
+filter_checkbox("RNA_LowCoverage", "Low coverage", shared_data, ~LowCoverage, columns = 2, allLevels = TRUE)
+filter_select("RNA_GENE", "GENE", shared_data, ~GENE, multiple = TRUE)
+filter_slider("RNA_COV", "Target coverage", shared_data, ~TARGET, ticks = FALSE)
+```
+
+
+Column
+---------------------------------------------
+
+### RNA gene coverage
+
+```{r qc_rnagene_table, eval = nrow(rna_metrics) != 0}
+datatable(
+  shared_data, class = "display", extensions = c("Buttons", "ColReorder"), rownames = FALSE,
+  options = list(
+    bPaginate = FALSE, searchHighlight = TRUE, dom = "BfrtiR", buttons = c("copy", "csv","excel"),
+    columnDefs = list(
+      list(visible = FALSE, targets = grep("WHITELIST|LowCoverage", colnames(rna_genecov))-1),
+      list(className = 'dt-center', targets = "_all"),
+      list(className = 'dt-head-center', targets = "_all")),
+    initComplete = JS(
+    "function(settings, json) {",
+    paste0(
+      "$(this.api().table().header()).css({'text-align': 'center', 'background-color': '", 
+      all_colors["primary"], "', 'color': '#fff'});"), "}"))) %>%
+  formatStyle("GENE", fontWeight = "bold") %>%
+  formatStyle("TARGET", fontWeight = "bold") %>%
+  formatStyle("GENE", "WHITELIST", color = styleEqual("TRUE", all_colors["primary"])) %>%
+  formatStyle("GENE", "LowCoverage", color = styleEqual("TRUE", all_colors["QC_FAIL"])) %>%
+  formatStyle("TARGET", "LowCoverage", color = styleEqual("TRUE", all_colors["QC_FAIL"]))
+
+rm(shared_data)
+```
+
+```{r qc_rnagene_notable, results = 'asis', eval = nrow(rna_metrics) == 0}
+cat("\n* **NO** RNA metrics.\n")
+```
+
+
+
+
+
+DNA CovByExon datatable {data-orientation=columns data-navmenu="Sample QC"}
+==================================================================
+
+Column {.sidebar data-width=200}
+-----------------------------------------------
+
+```{r qc_dnaexon_filters, eval = nrow(dna_exoncov) != 0}
+shared_data <- SharedData$new(dna_exoncov)
+
+filter_checkbox("DNA_LowCoverage", "Low coverage", shared_data, ~LowCoverage, columns = 2, allLevels = TRUE)
+filter_select("DNA_GENE", "GENE", shared_data, ~GENE, multiple = TRUE)
+filter_select("DNA_EXON", "EXON", shared_data, ~EXON, multiple = TRUE)
+filter_slider("DNA_COV", "Exon coverage", shared_data, ~DEPTH, ticks = FALSE)
+```
+
+
+Column
+---------------------------------------------
+
+### DNA exon coverage (only whitelist)
+
+```{r qc_dnaexon_table, eval = nrow(dna_exoncov) != 0}
+datatable(
+  shared_data, class = "display", extensions = c("Buttons", "ColReorder"), rownames = FALSE,
+  options = list(
+    bPaginate = FALSE, searchHighlight = TRUE, dom = "BfrtiR", buttons = c("copy", "csv","excel"),
+    columnDefs = list(
+      list(visible = FALSE, targets = grep("WHITELIST|LowCoverage", colnames(dna_exoncov))-1),
+      list(className = 'dt-center', targets = "_all"),
+      list(className = 'dt-head-center', targets = "_all")),
+    initComplete = JS(
+    "function(settings, json) {",
+    paste0(
+      "$(this.api().table().header()).css({'text-align': 'center', 'background-color': '", 
+      all_colors["primary"], "', 'color': '#fff'});"), "}"))) %>%
+  formatStyle("GENE", fontWeight = "bold") %>%
+  formatStyle("EXON", fontWeight = "bold") %>%
+  formatStyle("DEPTH", fontWeight = "bold") %>%
+  formatStyle("GENE", "WHITELIST", color = styleEqual("TRUE", all_colors["primary"])) %>%
+  formatStyle("GENE", "LowCoverage", color = styleEqual("TRUE", all_colors["QC_FAIL"])) %>%
+  formatStyle("EXON", "LowCoverage", color = styleEqual("TRUE", all_colors["QC_FAIL"])) %>%
+  formatStyle("DEPTH", "LowCoverage", color = styleEqual("TRUE", all_colors["QC_FAIL"]))
+
+rm(shared_data)
+```
+
+
+```{r qc_dnaexon_notable, results = 'asis', eval = nrow(dna_metrics) != 0}
+if(nrow(dna_exoncov) == 0){cat("\n* **NO** DNA whitelist.\n")}
+```
+
+
+```{r qc_dnaexon_nometrics, results = 'asis', eval = nrow(dna_metrics) == 0}
+cat("\n* **NO** DNA metrics.\n")
+```
+
+
+
+
+
+RNA CovByExon datatable {data-orientation=columns data-navmenu="Sample QC"}
+==================================================================
+
+Column {.sidebar data-width=200}
+-----------------------------------------------
+
+```{r qc_rnaexon_filters, eval = nrow(rna_exoncov) != 0}
+shared_data <- SharedData$new(rna_exoncov)
+
+filter_checkbox("RNA_LowCoverage", "Low coverage", shared_data, ~LowCoverage, columns = 2, allLevels = TRUE)
+filter_select("RNA_GENE", "GENE", shared_data, ~GENE, multiple = TRUE)
+filter_select("RNA_EXON", "EXON", shared_data, ~EXON, multiple = TRUE)
+filter_slider("RNA_COV", "Exon coverage", shared_data, ~DEPTH, ticks = FALSE)
+```
+
+
+Column
+---------------------------------------------
+
+### RNA exon coverage (only whitelist)
+
+```{r qc_rnaexon_table, eval = nrow(rna_exoncov) != 0}
+datatable(
+  shared_data, class = "display", extensions = c("Buttons", "ColReorder"), rownames = FALSE,
+  options = list(
+    bPaginate = FALSE, searchHighlight = TRUE, dom = "BfrtiR", buttons = c("copy", "csv","excel"),
+    columnDefs = list(
+      list(visible = FALSE, targets = grep("WHITELIST|LowCoverage", colnames(rna_exoncov))-1),
+      list(className = 'dt-center', targets = "_all"),
+      list(className = 'dt-head-center', targets = "_all")),
+    initComplete = JS(
+    "function(settings, json) {",
+    paste0(
+      "$(this.api().table().header()).css({'text-align': 'center', 'background-color': '", 
+      all_colors["primary"], "', 'color': '#fff'});"), "}"))) %>%
+  formatStyle("GENE", fontWeight = "bold") %>%
+  formatStyle("EXON", fontWeight = "bold") %>%
+  formatStyle("DEPTH", fontWeight = "bold") %>%
+  formatStyle("GENE", "WHITELIST", color = styleEqual("TRUE", all_colors["primary"])) %>%
+  formatStyle("GENE", "LowCoverage", color = styleEqual("TRUE", all_colors["QC_FAIL"])) %>%
+  formatStyle("EXON", "LowCoverage", color = styleEqual("TRUE", all_colors["QC_FAIL"])) %>%
+  formatStyle("DEPTH", "LowCoverage", color = styleEqual("TRUE", all_colors["QC_FAIL"]))
+
+rm(shared_data)
+```
+
+
+```{r qc_rnaexon_notable, results = 'asis', eval = nrow(rna_metrics) != 0}
+if(nrow(rna_exoncov) == 0){cat("\n* **NO** RNA whitelist.\n")}
+```
+
+
+```{r qc_rnaexon_nometrics, results = 'asis', eval = nrow(rna_metrics) == 0}
+cat("\n* **NO** RNA metrics.\n")
+```
+
+

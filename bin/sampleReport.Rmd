@@ -1,0 +1,84 @@
+---
+output: 
+  flexdashboard::flex_dashboard
+---
+
+<style type="text/css">
+.value-box .value {
+  color: white;
+  font-size: 30px;
+}
+.value-box .caption {
+  color: white;
+  margin-bottom: 0px;
+}
+.chart-title {
+  background: black;
+  color: white;
+  font-weight: bold;
+  font-size: 16px
+}
+.chart-stage-flex {
+  overflow: scroll !important;
+}
+.datatables{
+    overflow: auto;
+}
+.header-text {
+  background: black;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 7px 10px 0px;
+}
+.section.sidebar {
+  left: 0;
+  bottom: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 10px;
+}
+
+.highlight-text {
+  background: #2780E3;
+  color: white;
+}
+</style>
+
+
+
+---
+title: '`r paste0(run, ": ", sample, " | ", tumor, " | ", panel)`'
+---
+
+```{r main, child = paste0("sampleReport_Main.Rmd")}
+```
+
+```{r snvindel, child = paste0("sampleReport_SmallVariant.Rmd"), eval = is_vars}
+```
+
+
+```{r cna, child = paste0("sampleReport_CNA.Rmd"), eval = is_cna_gene}
+```
+
+
+```{r fusion, child = paste0("sampleReport_Fusion.Rmd"), eval = is_fusion}
+```
+
+
+```{r splicing, child = paste0("sampleReport_Splicing.Rmd"), eval = is_splicing}
+```
+
+
+```{r tmb, child = paste0("sampleReport_TMB.Rmd"), eval = is_tmb}
+```
+
+
+```{r msi, child = paste0("sampleReport_MSI.Rmd"), eval = is_msi}
+```
+
+
+```{r sampleqc, child = paste0("sampleReport_QC.Rmd")}
+```
+

@@ -1,0 +1,16 @@
+table_columns_visible:
+  FastQC:
+    percent_duplicates: False
+mosdepth_config:
+  include_contigs:
+    - "chr*"
+  exclude_contigs:
+    - "*_alt"
+    - "*_decoy"
+    - "*_random"
+    - "chrUn*"
+    - "HLA*"
+    - "chrM"
+    - "chrEBV"
+fastp:
+  s_name_filenames: true

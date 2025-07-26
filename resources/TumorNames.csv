@@ -1,0 +1,398 @@
+TUMOR_NAME;TUMOR_DOID;TUMOR_CODE;TOPNODE_NAME;TOPNODE_DOID
+adrenal carcinoma;3950;ADRENAL_GLAND;adrenal gland cancer;3953
+adrenal gland cancer;3953;ADRENAL_GLAND;adrenal gland cancer;3953
+adrenal gland pheochromocytoma;50892;PHC;adrenal gland cancer;3953
+adrenocortical carcinoma;3948;ACC;adrenal gland cancer;3953
+appendix adenocarcinoma;3608;APAD;appendix cancer;11239
+pseudomyxoma peritonei;3559;PMP;appendix cancer;11239
+acoustic neuroma;12689;VS;benign neoplasm;60072
+adrenal adenoma;656;ADRENAL_GLAND;benign neoplasm;60072
+benign mesothelioma;2645;BMESO;benign neoplasm;60072
+biliary tract neoplasm;50625;BILIARY_TRACT;benign neoplasm;60072
+bladder transitional cell papilloma;6933;BLCA;benign neoplasm;60072
+bone epithelioid hemangioma;6610;HEMA;benign neoplasm;60072
+craniopharyngioma;3840;CPG;benign neoplasm;60072
+desmoid tumor;80366;DES;benign neoplasm;60072
+ganglioglioma;5078;GNG;benign neoplasm;60072
+ganglioneuroma;4817;GN;benign neoplasm;60072
+hemangioma;255;HEMA;benign neoplasm;60072
+hepatocellular adenoma;50868;LIAD;benign neoplasm;60072
+kidney angiomyolipoma;8411;RAML;benign neoplasm;60072
+lymph node benign neoplasm;80617;LYMPH;benign neoplasm;60072
+neurilemmoma;3192;SCHW;benign neoplasm;60072
+pituitary adenoma;3829;PTAD;benign neoplasm;60072
+rectal benign neoplasm;1984;REN;benign neoplasm;60072
+tuberous sclerosis;13515;TSC;benign neoplasm;60072
+von hippel-lindau disease;14175;VHL;benign neoplasm;60072
+bile duct adenocarcinoma;4896;IPN;biliary tract cancer;4607
+biliary tract cancer;4607;BILIARY_TRACT;biliary tract cancer;4607
+cholangiocarcinoma;4947;CHOL;biliary tract cancer;4607
+cholangiolocellular carcinoma;7642;CHOL;biliary tract cancer;4607
+hilar cholangiocellular carcinoma;5246;HCH;biliary tract cancer;4607
+intrahepatic cholangiocarcinoma;4928;IHCH;biliary tract cancer;4607
+bone cancer;184;BONE;bone cancer;184
+bone giant cell tumor;4305;GCTB;bone cancer;184
+bone squamous cell carcinoma;50896;BSCC;bone cancer;184
+chordoma;3302;CHDM;bone cancer;184
+ewing sarcoma;3369;ES;bone cancer;184
+ewing sarcoma of bone;3368;ES;bone cancer;184
+extraosseous ewing's sarcoma;4232;ES;bone cancer;184
+osteosarcoma;3347;OS;bone cancer;184
+breast adenocarcinoma;3458;BRCA;breast cancer;1612
+breast cancer;1612;BREAST;breast cancer;1612
+breast carcinoma;3459;BRCA;breast cancer;1612
+breast papillary carcinoma;5592;BRPC;breast cancer;1612
+breast secretory carcinoma;4922;JSCB;breast cancer;1612
+breast tubular carcinoma;6587;ITC;breast cancer;1612
+estrogen-receptor negative breast cancer;60076;BRCA;breast cancer;1612
+estrogen-receptor positive breast cancer;60075;BRCA;breast cancer;1612
+her2-receptor negative breast cancer;60080;BRCA;breast cancer;1612
+her2-receptor positive breast cancer;60079;BRCA;breast cancer;1612
+inflammatory breast carcinoma;6263;IBC;breast cancer;1612
+invasive ductal carcinoma;3008;IDC;breast cancer;1612
+triple-receptor negative breast cancer;60081;BRCA;breast cancer;1612
+adenocarcinoma;299;AD;cancer;162
+adenosarcoma;1974;AS;cancer;162
+cancer;162;CANCER;cancer;162
+cancer of unknown primary;NA;CUP;cancer;162
+carcinoma;305;CA;cancer;162
+epithelioid inflammatory myofibroblastic sarcoma;80372;IMT;cancer;162
+inflammatory myofibroblastic tumor;50905;IMT;cancer;162
+malignant mesothelioma;1790;MESO;cancer;162
+melanoma;1909;MEL;cancer;162
+metastasis;NA;METS;cancer;162
+mucosal melanoma;50929;MUCM;cancer;162
+nut midline carcinoma;60463;NUTC;cancer;162
+other tumor;NA;OTHER;cancer;162
+papillary adenocarcinoma;3112;PA;cancer;162
+papillary carcinoma;3113;PC;cancer;162
+pleomorphic carcinoma;5662;PLCA;cancer;162
+sarcomatoid carcinoma;4015;SC;cancer;162
+signet ring cell adenocarcinoma;3493;SRCAD;cancer;162
+solid tumor;NA;SOLID;cancer;162
+squamous cell carcinoma;1749;SCC;cancer;162
+transitional cell carcinoma;2671;TCC;cancer;162
+anaplastic ependymoma;5889;APE;central nervous system cancer;3620
+angiocentric glioma;81261;ANGL;central nervous system cancer;3620
+astroblastoma, mn1-altered;80904;ASTB;central nervous system cancer;3620
+astrocytoma;3069;ASTR;central nervous system cancer;3620
+atypical teratoid rhabdoid tumor;2129;ATRT;central nervous system cancer;3620
+brain cancer;1319;BRAIN;central nervous system cancer;3620
+brain glioblastoma multiforme;3073;GBM;central nervous system cancer;3620
+brain glioma;60108;GLIOMA;central nervous system cancer;3620
+central nervous system cancer;3620;CNS;central nervous system cancer;3620
+central nervous system tumor with bcor internal tandem duplication;81315;CNS;central nervous system cancer;3620
+cerebellum cancer;4205;CEREBELLUM;central nervous system cancer;3620
+childhood ependymoma;5509;EPM;central nervous system cancer;3620
+childhood low-grade glioma;80830;LGG;central nervous system cancer;3620
+childhood medulloblastoma;3869;MBL;central nervous system cancer;3620
+childhood pilocytic astrocytoma;6812;PAST;central nervous system cancer;3620
+cns neuroblastoma with foxr2 activation;80906;CNSNBL;central nervous system cancer;3620
+diffuse astrocytoma, myb- or mybl1-altered;81279;DASTR;central nervous system cancer;3620
+diffuse glioma, h3 g34 mutant;80880;DIFG;central nervous system cancer;3620
+diffuse midline glioma, h3 k27m-mutant;80684;DIFG;central nervous system cancer;3620
+glioblastoma;3068;GB;central nervous system cancer;3620
+glioblastoma proneural subtype;50804;GB;central nervous system cancer;3620
+glioma;60108;GLIOMA;central nervous system cancer;3620
+grade iii astrocytoma;3078;ASTR;central nervous system cancer;3620
+high grade ependymoma;5074;EPM;central nervous system cancer;3620
+high grade glioma;3070;HGG;central nervous system cancer;3620
+isomorphic diffuse glioma;4857;DASTR;central nervous system cancer;3620
+low grade glioma;80829;LGG;central nervous system cancer;3620
+malignant astrocytoma;3069;ASTR;central nervous system cancer;3620
+medulloblastoma;50902;MBL;central nervous system cancer;3620
+medulloblastoma shh activated;80703;MBL;central nervous system cancer;3620
+meningioma;3565;MNG;central nervous system cancer;3620
+meningothelial meningioma;7212;MNG;central nervous system cancer;3620
+olfactory neuroblastoma;369;ONBL;central nervous system cancer;3620
+oligodendroglioma;3181;ODG;central nervous system cancer;3620
+parietal lobe ependymoma;50903;EPM;central nervous system cancer;3620
+pediatric low-grade glioma;80830;LGG;central nervous system cancer;3620
+pilocytic astrocytoma;4851;PAST;central nervous system cancer;3620
+pineal gland cancer;5032;PINT;central nervous system cancer;3620
+pituitary carcinoma;4916;PTCA;central nervous system cancer;3620
+pleomorphic xanthoastrocytoma;4852;PXA;central nervous system cancer;3620
+spinal cord glioma;3185;SCG;central nervous system cancer;3620
+supratentorial ependymoma, yap1 fusion-positive;81253;EPM;central nervous system cancer;3620
+supratentorial ependymoma, zfta fusion-positive;81252;EPM;central nervous system cancer;3620
+chondroblastoma;2649;CHBL;connective tissue cancer;201
+chondrosarcoma;3371;CHS;connective tissue cancer;201
+congenital fibrosarcoma;8418;FIBS;connective tissue cancer;201
+connective tissue cancer;201;SOFT_TISSUE;connective tissue cancer;201
+dermatofibrosarcoma protuberans;3507;DFSP;connective tissue cancer;201
+fibrosarcoma;3355;FIBS;connective tissue cancer;201
+fibrous histiocytoma;4415;FH;connective tissue cancer;201
+histiocytoma;4231;HS;connective tissue cancer;201
+lipofibromatosis-like neural tumor;80894;LPF-NT;connective tissue cancer;201
+liposarcoma;3382;LIPO;connective tissue cancer;201
+low-grade fibromyxoid sarcoma;80534;LGFMS;connective tissue cancer;201
+malignant pleural mesothelioma;7474;PLMESO;connective tissue cancer;201
+mesenchymal chondrosarcoma;4545;MCHS;connective tissue cancer;201
+myxoid liposarcoma;5363;MRLS;connective tissue cancer;201
+"pericytoma with t(7;12)";80896;PC712;connective tissue cancer;201
+sclerosing epithelioid fibrosarcoma;3355;SEF;connective tissue cancer;201
+synovial sarcoma;5485;SYNS;connective tissue cancer;201
+tenosynovial giant cell tumor;314;TGCT;connective tissue cancer;201
+barrett's adenocarcinoma;7941;ESCA;esophageal cancer;5041
+esophageal cancer;5041;ESCA;esophageal cancer;5041
+esophageal carcinoma;1107;ESCA;esophageal cancer;5041
+esophagus adenocarcinoma;4914;ESCA;esophageal cancer;5041
+esophagus squamous cell carcinoma;3748;ESCC;esophageal cancer;5041
+fallopian tube cancer;1964;FALLOPIAN_TUBE;fallopian tube cancer;1964
+female reproductive organ cancer;120;GYN;female reproductive organ cancer;120
+gastroesophageal junction adenocarcinoma;4944;GEJ;gastroesophageal cancer;80374
+gastrointestinal neuroendocrine tumor;50626;GINET;gastrointestinal system cancer;3119
+gastrointestinal stromal tumor;9253;GIST;gastrointestinal system cancer;3119
+gastrointestinal system cancer;3119;GASTROINTESTINAL;gastrointestinal system cancer;3119
+germ cell cancer;2994;GCT;germ cell cancer;2994
+seminoma;4440;SEM;germ cell cancer;2994
+head and neck cancer;11934;HEAD_NECK;head and neck cancer;11934
+head and neck carcinoma;1542;HEAD_NECK;head and neck cancer;11934
+head and neck squamous cell carcinoma;5520;HNSC;head and neck cancer;11934
+hypopharynx cancer;8533;HPHSC;head and neck cancer;11934
+laryngeal carcinoma;2600;LXSC;head and neck cancer;11934
+laryngeal squamous cell carcinoma;2876;LXSC;head and neck cancer;11934
+mammary analogue secretory carcinoma;80808;HNMASC;head and neck cancer;11934
+nasopharynx carcinoma;9261;NPC;head and neck cancer;11934
+oral cavity cancer;8618;OCSC;head and neck cancer;11934
+oral squamous cell carcinoma;50866;OCSC;head and neck cancer;11934
+oropharynx cancer;8557;OPHC;head and neck cancer;11934
+paranasal sinus cancer;50619;PSC;head and neck cancer;11934
+parotid gland adenoid cystic carcinoma;50931;ACYC;head and neck cancer;11934
+pharynx squamous cell carcinoma;50921;PHSC;head and neck cancer;11934
+salivary gland adenoid cystic carcinoma;4866;ACYC;head and neck cancer;11934
+salivary gland cancer;8850;SACA;head and neck cancer;11934
+salivary gland carcinoma;50904;SACA;head and neck cancer;11934
+salivary gland mucinous adenocarcinoma;80800;SAAD;head and neck cancer;11934
+tongue squamous cell carcinoma;50865;OTSCC;head and neck cancer;11934
+acute leukemia;12603;AL;hematologic cancer;2531
+acute lymphoblastic leukemia;9952;ALL;hematologic cancer;2531
+acute myeloid leukemia;9119;AML;hematologic cancer;2531
+acute myeloid leukemia with bcr-abl1;80976;AMLBCRABL1;hematologic cancer;2531
+acute myeloid leukemia with bcr::abl1 fusion;80976;AMLBCRABL1;hematologic cancer;2531
+acute myeloid leukemia with cbfa2t3::glis2 fusion;9119;AMLCBFA2T3GLIS2;hematologic cancer;2531
+"acute myeloid leukemia with inv(16)(p13.1q22) or t(16;16)(p13.1;q22)";81084;AMLCBFBMYH11;hematologic cancer;2531
+acute myeloid leukemia with mnx1::etv6 fusion;9119;AMLMNX1ETV6;hematologic cancer;2531
+"acute myeloid leukemia with t(8;21); (q22; q22.1)";81093;AMLRUNX1RUNX1T1;hematologic cancer;2531
+acute promyelocytic leukemia;60318;APL;hematologic cancer;2531
+acute t cell leukemia;5603;ATL;hematologic cancer;2531
+adult t-cell leukemia;50523;ATLL;hematologic cancer;2531
+anaplastic large cell lymphoma;50744;ALCL;hematologic cancer;2531
+atypical chronic myeloid leukemia;60597;ACML;hematologic cancer;2531
+b-cell acute lymphoblastic leukemia;80638;BLL;hematologic cancer;2530
+b-cell adult acute lymphocytic leukemia;60592;BLL;hematologic cancer;2531
+b-cell lymphoma;707;BLL;hematologic cancer;2531
+b-lymphoblastic leukemia/lymphoma;80630;BLL;hematologic cancer;2531
+b-lymphoblastic leukemia/lymphoma with etv6-runx1;80645;BLLETV6RUNX1;hematologic cancer;2531
+b-lymphoblastic leukemia/lymphoma with pax5 p80r;81411;BLLPAX5P80R;hematologic cancer;2531
+b-lymphoblastic leukemia/lymphoma with tcf3-pbx1;80649;BLLTCF3PBX1;hematologic cancer;2531
+b-lymphoblastic leukemia/lymphoma with bcr-abl1;80643;BLLBCRABL1;hematologic cancer;2531
+b-lymphoblastic leukemia/lymphoma, bcr-abl1-like;80650;BLLBCRABL1L;hematologic cancer;2531
+bone marrow cancer;4960;MYELOID;hematologic cancer;2531
+central nervous system lymphoma;3234;CNSL;hematologic cancer;2531
+childhood acute lymphocytic leukemia;80144;ALL;hematologic cancer;2533
+childhood b-cell acute lymphoblastic leukemia;80146;BLL;hematologic cancer;2533
+chronic leukemia;1036;CL;hematologic cancer;2531
+chronic lymphocytic leukemia;1040;CLL;hematologic cancer;2531
+chronic lymphocytic leukemia/small lymphocytic lymphoma;6354;CLL;hematologic cancer;2531
+chronic myeloid leukemia;8552;CML;hematologic cancer;2531
+chronic myelomonocytic leukemia;80188;CMML;hematologic cancer;2531
+chronic neutrophilic leukemia;80187;CNL;hematologic cancer;2531
+chuvash polycythemia;60474;PV;hematologic cancer;2531
+diffuse large b-cell lymphoma;50745;DLBCL;hematologic cancer;2531
+diffuse large b-cell lymphoma activated b-cell type;80996;ABC;hematologic cancer;2531
+diffuse large b-cell lymphoma germinal center b-cell type;80997;GCB;hematologic cancer;2531
+essential thrombocythemia;2224;ET;hematologic cancer;2531
+follicular lymphoma;50873;FLC;hematologic cancer;2531
+hairy cell leukemia;285;CLL;hematologic cancer;2531
+hematologic cancer;2531;HEMATO;hematologic cancer;2531
+histiocytic and dendritic cell cancer;5621;HDCN;hematologic cancer;2531
+hodgkin's lymphoma;8567;HL;hematologic cancer;2531
+juvenile myelomonocytic leukemia;50458;JMML;hematologic cancer;2531
+langerhans cell sarcoma;7146;LCS;hematologic cancer;2531
+leukemia;1240;LEUKEMIA;hematologic cancer;2531
+lymphoblastic leukemia;1037;LNM;hematologic cancer;2531
+lymphoid leukemia;1037;LNM;hematologic cancer;2531
+lymphoma;60058;LYMPH;hematologic cancer;2531
+lymphoplasmacytic lymphoma;60901;LPL;hematologic cancer;2531
+mantle cell lymphoma;50746;MCL;hematologic cancer;2531
+mast cell neoplasm;3664;MCN;hematologic cancer;2531
+mast-cell leukemia;9254;SMMCL;hematologic cancer;2531
+mature t-cell and nk-cell lymphoma;50743;MTNN;hematologic cancer;2531
+megakaryocytic leukemia;8761;MKL;hematologic cancer;2531
+multiple myeloma;9538;MM;hematologic cancer;2531
+myelodysplastic syndrome;50908;MDS;hematologic cancer;2531
+myelodysplastic/myeloproliferative neoplasm;4972;MDS/MPN;hematologic cancer;2531
+myelofibrosis;4971;PMF;hematologic cancer;2531
+myeloid and lymphoid neoplasms with eosinophilia and abnormalities of pdgfra, pdgfrb, and fgfr1;80164;MLNER;hematologic cancer;2531
+myeloid leukemia;8692;MYELOID;hematologic cancer;2531
+myeloid neoplasm;70004;MYELOID;hematologic cancer;2531
+myeloproliferative neoplasm;2226;MPN;hematologic cancer;2531
+non-hodgkin lymphoma;60060;NHL;hematologic cancer;2531
+peripheral t-cell lymphoma;50749;PTCL;hematologic cancer;2531
+polycythemia vera;8997;PV;hematologic cancer;2531
+precursor b lymphoblastic lymphoma/leukemia;7061;BLL;hematologic cancer;2531
+sezary's disease;8541;SS;hematologic cancer;2531
+t-cell adult acute lymphocytic leukemia;5602;TALL;hematologic cancer;2531
+t-cell large granular lymphocyte leukemia;50751;TLGL;hematologic cancer;2531
+t-cell leukemia;715;TLL;hematologic cancer;2531
+systemic mastocytosis;349;SM;hematopoietic system disease;74
+peutz-jeghers syndrome;3852;PJS ;intestinal disease;5295
+clear cell renal cell carcinoma;4467;CCRCC;kidney cancer;263
+collecting duct carcinoma;4464;CDC;kidney cancer;263
+congenital mesoblastic nephroma;4773;CMN;kidney cancer;263
+kidney cancer;263;KIDNEY;kidney cancer;263
+kidney clear cell sarcoma;4880;CCSK;kidney cancer;263
+papillary renal cell carcinoma;4465;PRCC;kidney cancer;263
+renal carcinoma;4451;RCC;kidney cancer;263
+renal cell carcinoma;4450;RCC;kidney cancer;263
+renal cell carcinoma with mit translocations;81413;RCC;kidney cancer;263
+renal medullary carcinoma;70475;MRC;kidney cancer;263
+renal pelvis transitional cell carcinoma;5974;TCC;kidney cancer;263
+renal wilms' tumor;5176;WT;kidney cancer;263
+rhabdoid cancer;3672;MRT;kidney cancer;263
+anal canal cancer;50688;AGA;large intestine cancer;5672
+colon adenocarcinoma;234;COAD;large intestine cancer;5672
+colon cancer;219;COAD;large intestine cancer;5672
+colon carcinoma;1520;COAD;large intestine cancer;5672
+colon mucinous adenocarcinoma;3029;MACR;large intestine cancer;5672
+colorectal adenocarcinoma;50861;COADREAD;large intestine cancer;5672
+colorectal cancer;9256;COADREAD;large intestine cancer;5672
+lynch syndrome;3883;HNPCC;large intestine cancer;5672
+malignant anus melanoma;14145;ARMM;large intestine cancer;5672
+rectum adenocarcinoma;1996;READ;large intestine cancer;5672
+rectum cancer;1993;RECA;large intestine cancer;5672
+sigmoid colon cancer;12192;COADREAD;large intestine cancer;5672
+fibrolamellar carcinoma;5015;FLC;liver cancer;3571
+hepatocellular carcinoma;684;HCC;liver cancer;3571
+liver cancer;3571;LIVER;liver cancer;3571
+liver carcinoma;686;LIVER;liver cancer;3571
+mixed fibrolamellar hepatocellular carcinoma;80182;MFLCHCC;liver cancer;3571
+adenosquamous lung carcinoma;4829;LUAS;lung cancer;1324
+bronchiolo-alveolar adenocarcinoma;4926;BAC;lung cancer;1324
+lung acinar adenocarcinoma;6482;LUAD;lung cancer;1324
+lung adenocarcinoma;3910;LUAD;lung cancer;1324
+lung adenoid cystic carcinoma;4872;LUACC;lung cancer;1324
+lung cancer;1324;LUNG;lung cancer;1324
+lung carcinoma;3905;LUNG;lung cancer;1324
+lung large cell carcinoma;4556;LCLC;lung cancer;1324
+lung non-small cell carcinoma;3908;NSCLC;lung cancer;1324
+lung papillary adenocarcinoma;5588;LUAD;lung cancer;1324
+lung sarcomatoid carcinoma;80777;SARCL;lung cancer;1324
+lung small cell carcinoma;5409;SCLC;lung cancer;1324
+lung squamous cell carcinoma;3907;LUSC;lung cancer;1324
+mucinous lung adenocarcinoma;80303;LUAD;lung cancer;1324
+lymphatic system cancer;60073;LYMPH;lymphatic system cancer;60073
+langerhans-cell histiocytosis;2571;LCH;lymphatic system disease;75
+mediastinal cancer;5559;MEDIASTINAL;mediastinal cancer;5559
+alveolar rhabdomyosarcoma;4051;ARMS;muscle cancer;4045
+alveolar soft part sarcoma;4239;ASPS;muscle cancer;4045
+leiomyosarcoma;1967;LMS;muscle cancer;4045
+rhabdomyosarcoma;3247;RMS;muscle cancer;4045
+spindle cell rhabdomyosarcoma;3260;SCRMS;muscle cancer;4045
+neuroendocrine tumor;169;NET;neuroendocrine tumor;169
+malignant conjunctival melanoma;1751;CM;ocular cancer;2174
+ocular melanoma;1752;UM;ocular cancer;2174
+retinoblastoma;768;RB;ocular cancer;2174
+uveal melanoma;6039;UM;ocular cancer;2174
+endometrioid ovary carcinoma;5828;UEC;ovarian cancer;2394
+epithelial ovarian cancer;2152;OVT;ovarian cancer;2394
+ovarian cancer;2394;OVARY;ovarian cancer;2394
+ovarian carcinoma;4001;OVT;ovarian cancer;2394
+ovarian clear cell adenocarcinoma;5304;CCOV;ovarian cancer;2394
+ovarian clear cell carcinoma;50934;CCOV;ovarian cancer;2394
+ovarian cystadenocarcinoma;3605;SOC;ovarian cancer;2394
+ovarian endometrial cancer;6212;OCEC;ovarian cancer;2394
+ovarian mucinous neoplasm;6067;MOV;ovarian cancer;2394
+ovarian serous carcinoma;50933;SOC;ovarian cancer;2394
+ovarian serous cystadenocarcinoma;5746;SOC;ovarian cancer;2394
+ovary adenocarcinoma;3713;OVT;ovarian cancer;2394
+ovary epithelial cancer;2152;OVT;ovarian cancer;2394
+ovary serous adenocarcinoma;5744;SOC;ovarian cancer;2394
+small-cell carcinoma of the ovary of hypercalcemic type;7651;SCCO;ovarian cancer;2394
+malignant exocrine pancreas neoplasm;1795;PANCREAS;pancreatic cancer;1793
+pancreatic acinar cell adenocarcinoma;5742;PAAC;pancreatic cancer;1793
+pancreatic adenocarcinoma;4074;PAAD;pancreatic cancer;1793
+pancreatic cancer;1793;PANCREAS;pancreatic cancer;1793
+pancreatic carcinoma;4905;PANCREAS;pancreatic cancer;1793
+pancreatic ductal adenocarcinoma;3498;PAAD;pancreatic cancer;1793
+pancreatic ductal carcinoma;3587;PACT;pancreatic cancer;1793
+tumor of exocrine pancreas;1795;PDAC;pancreatic cancer;1793
+penile cancer;11615;PENIS;penile cancer;11615
+autonomic nervous system neoplasm;2621;PNS;peripheral nervous system neoplasm;1192
+malignant peripheral nerve sheath tumor;5940;MPNST;peripheral nervous system neoplasm;1192
+neuroblastoma;769;NBL;peripheral nervous system neoplasm;1192
+neurofibroma;962;NFIB;peripheral nervous system neoplasm;1192
+plexiform neurofibroma;5151;NFIB;peripheral nervous system neoplasm;1192
+peritoneal carcinoma;1791;PECA;peritoneum cancer;1725
+peritoneal mesothelioma;1788;PEMESO;peritoneum cancer;1725
+peritoneum cancer;1725;PERITONEUM;peritoneum cancer;1725
+castration-resistant prostate carcinoma;80909;PROSTATE;prostate cancer;10283
+prostate adenocarcinoma;2526;PRAD;prostate cancer;10283
+prostate cancer;10283;PROSTATE;prostate cancer;10283
+prostate carcinoma;10286;PROSTATE;prostate cancer;10283
+prostate neuroendocrine neoplasm;2992;PRNE;prostate cancer;10283
+angiosarcoma;1816;ANGS;sarcoma;1115
+cic-rearranged sarcoma;81250;RCSNOS;sarcoma;1115
+clear cell sarcoma;4233;CCS;sarcoma;1115
+desmoplastic small round cell tumor;6785;DSRCT;sarcoma;1115
+malignant epithelioid hemangioendothelioma;80190;EHAE;sarcoma;1115
+sarcoma;1115;SARCOMA;sarcoma;1115
+spindle cell sarcoma;4235;SCS;sarcoma;1115
+scrotum paget's disease;3444;SPD;scrotum neoplasm;518
+granulosa cell tumor;2999;GRCT;sex cord-gonadal stromal tumor;192
+ovarian sex-cord stromal tumor;80369;SCST;sex cord-gonadal stromal tumor;192
+sertoli-leydig cell tumor;2997;SLCT;sex cord-gonadal stromal tumor;192
+acral lentiginous melanoma;6367;ACRM;skin cancer;4159
+basal cell carcinoma;2513;BCC;skin cancer;4159
+extramammary paget disease;3450;EMPD;skin cancer;4159
+merkel cell carcinoma;3965;MCC;skin cancer;4159
+skin cancer;4159;SKIN;skin cancer;4159
+skin melanoma;8923;MEL;skin cancer;4159
+skin squamous cell carcinoma;3151;SSCC;skin cancer;4159
+spitzoid melanoma;70326;SPZM;skin cancer;4159
+duodenum adenocarcinoma;10816;DUODENUM;small intestine cancer;10154
+small intestine adenocarcinoma;4906;SIC;small intestine cancer;10155
+gastric adenocarcinoma;3717;STAD;stomach cancer;10534
+gastric adenosquamous carcinoma;5635;STAS;stomach cancer;10534
+gastric signet ring cell adenocarcinoma;8025;SSRCC;stomach cancer;10534
+stomach cancer;10534;STOMACH;stomach cancer;10534
+stomach carcinoma;5517;STOMACH;stomach cancer;10534
+pten hamartoma tumor syndrome;80191;PHTS;syndrome;225
+testicular cancer;2998;TESTIS;testicular cancer;2998
+thymic carcinoma;3284;THYC;thymus cancer;3277
+thymoma;3275;THYM;thymus cancer;3277
+thymus cancer;3277;THYMUS;thymus cancer;3277
+thyroid cancer;1781;THYROID;thyroid cancer;1781
+thyroid gland anaplastic carcinoma;80522;THAP;thyroid cancer;1781
+thyroid gland carcinoma;3963;THYROID;thyroid cancer;1781
+thyroid gland follicular carcinoma;3962;THFO;thyroid cancer;1781
+thyroid gland hurthle cell carcinoma;8161;THHC;thyroid cancer;1781
+thyroid gland medullary carcinoma;3973;THME;thyroid cancer;1781
+thyroid gland papillary carcinoma;3969;THPA;thyroid cancer;1781
+ureter small cell carcinoma;6886;SCBC;ureter cancer;11819
+bladder carcinoma;4007;BLADDER;urinary bladder cancer;11054
+bladder urachal urothelial carcinoma;7244;BLCA;urinary bladder cancer;11054
+bladder urothelial carcinoma;4006;BLCA;urinary bladder cancer;11054
+invasive bladder transitional cell carcinoma;6477;BLCA;urinary bladder cancer;11054
+urinary bladder cancer;11054;BLADDER;urinary bladder cancer;11054
+urinary system cancer;3996;BLADDER;urinary system cancer;3996
+cervical adenocarcinoma;3702;CEAD;uterine cancer;363
+cervical cancer;4362;CERVIX;uterine cancer;363
+cervical squamous cell carcinoma;3744;CESC;uterine cancer;363
+cervix carcinoma;2893;CERVIX;uterine cancer;363
+endocervical carcinoma;7519;ECAD;uterine cancer;363
+endometrial adenocarcinoma;2870;UEC;uterine cancer;363
+endometrial cancer;1380;UCEC;uterine cancer;363
+endometrial carcinoma;2871;UCEC;uterine cancer;363
+endometrial serous adenocarcinoma;5750;USC;uterine cancer;363
+uterine cancer;363;UTERUS;uterine cancer;363
+uterine corpus endometrial carcinoma;50939;UCEC;uterine cancer;363
+uterine corpus sarcoma;5165;USARC;uterine cancer;363
+uterine corpus serous adenocarcinoma;5750;USC;uterine cancer;363
+uterus leiomyosarcoma;5289;ULMS;uterine cancer;363
+vagina sarcoma;1901;VS;vaginal cancer;119
+vaginal squamous tumor;138;VSC;vaginal cancer;119
+vulva cancer;1245;VULVA;vulva cancer;1245
+vulva squamous cell carcinoma;2101;VSC;vulva cancer;1245
+vulvar melanoma;2093;VMM;vulva cancer;1245

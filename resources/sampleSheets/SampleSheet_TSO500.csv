@@ -1,0 +1,16 @@
+[Header],,,,,,
+Date,0/0/0,,,,,
+[Reads],,,,,,
+101,,,,,,
+101,,,,,,
+[Settings],,,,,,
+AdapterRead1,<SEQ1>,,,,,
+AdapterRead2,<SEQ2>,,,,,
+OverrideCycles,U7N1Y93;I8;I8;U7N1Y93,,,,,
+[Data],,,,,,
+Sample_ID,index,index2,Index_ID,I7_Index_ID,I5_Index_ID,Sample_Type
+Sample01,<SEQ>,<SEQ2>,UP01,<I7_Index_ID>,<I5_Index_ID>,RNA
+Sample02,<SEQ>,<SEQ2>,UP02,<I7_Index_ID>,<I5_Index_ID>,RNA
+Sample01,<SEQ>,<SEQ2>,UP03,<I7_Index_ID>,<I5_Index_ID>,DNA
+Sample02,<SEQ>,<SEQ2>,UP04,<I7_Index_ID>,<I5_Index_ID>,DNA
+

@@ -1,0 +1,31 @@
+# R 4.0.4 image + pandoc
+
+The image contains:
+- [R-4.0.4](https://www.r-project.org/) with the following packages (and their dependencies):
+  - BiocManager
+  - CopyNumberPlots
+  - cowplot
+  - crosstalk
+  - data.table
+  - DBI
+  - DT
+  - flexdashboard
+  - GenomicFeatures
+  - ggplotify
+  - ggpubr
+  - HGNChelper
+  - jsonlite
+  - kableExtra
+  - karyoploteR
+  - knitr
+  - openxlsx
+  - readxl
+  - rmarkdown
+  - RSQLite
+  - rtracklayer
+  - scales
+  - tidyverse
+  - VariantAnnotation
+  - R.utils
+  - plyr
+- [pandoc](https://pandoc.org/).

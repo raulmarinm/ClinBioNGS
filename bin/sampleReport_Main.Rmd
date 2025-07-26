@@ -1,0 +1,269 @@
+
+Main Results {#main}
+==================================================================
+
+
+Column
+-------------------------------------
+
+###
+
+```{r main_snvindel}
+if(is_vars){aux_vars <- main_vars; aux_href <- "#overview_vars"} else {aux_vars <- variants; aux_href <- NULL}
+aux_N <- nrow(aux_vars)
+aux_label <- "SNV/InDel"
+aux_caption <- paste0(aux_N, " variants", ifelse(is_panel_hotspots, " (panel hotspot)", ""), " TierI-III")
+
+valueBox(aux_label, color = "black", caption = aux_caption, href  = aux_href)
+
+rm(aux_vars, aux_N, aux_label, aux_caption, aux_href)
+```
+
+
+###
+
+```{r main_snvindel_tierI}
+if(is_vars){aux_vars <- tier1_vars %>% filter(VAR %in% main_vars$VAR); aux_href <- "#plot_vars"} else {aux_vars <- variants; aux_href <- NULL}
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 0, "0 variants", ifelse(aux_N == 1, aux_vars$MUT_ID, paste0(aux_N, " Tier I")))
+aux_caption <- ifelse(aux_N <= 1, "Tier I", paste(sort(aux_vars$MUT_ID), collapse = ", "))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier IA"], "grey"), href  = aux_href)
+
+rm(aux_vars, aux_N, aux_label, aux_caption, aux_href)
+```
+
+###
+
+```{r main_snvindel_tierII}
+if(is_vars){aux_vars <- tier2_vars %>% filter(VAR %in% main_vars$VAR); aux_href <- "#plot_vars"} else {aux_vars <- variants; aux_href <- NULL}
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 0, "0 variants", ifelse(aux_N == 1, aux_vars$MUT_ID, paste0(aux_N, " Tier II")))
+aux_caption <- ifelse(aux_N <= 1, "Tier II", paste(sort(aux_vars$MUT_ID), collapse = ", "))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier IIC"], "grey"), href  = aux_href)
+
+rm(aux_vars, aux_N, aux_label, aux_caption, aux_href)
+```
+
+###
+
+```{r main_snvindel_tierIII}
+if(is_vars){aux_vars <- tier3_vars %>% filter(VAR %in% main_vars$VAR); aux_href <- "#plot_vars"} else {aux_vars <- variants; aux_href <- NULL}
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 0, "0 variants", paste0(aux_N, " Tier III"))
+aux_caption <- ifelse(aux_N == 0, "Tier III", paste0("Genes: ", paste(sort(unique(aux_vars$GENE_SYMBOL)), collapse = ", ")))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier III"], "grey"), href  = aux_href)
+
+rm(aux_vars, aux_N, aux_label, aux_href)
+```
+
+
+
+Column
+-------------------------------------
+
+###
+
+```{r main_cna}
+if(is_cna_gene){aux_vars <- cna %>% filter(NO_FLAGS & !TIER_IV); aux_href <- "#overview_cna"} else {aux_vars <- cna; aux_href <- NULL}
+aux_N <- nrow(aux_vars)
+cna_arm_N <- nrow(cna_arm)
+aux_label <- "CNA"
+aux_caption <- paste0(aux_N, " gene CNAs TierI-III")
+
+valueBox(aux_label, color = "black", caption = aux_caption, href  = aux_href)
+
+rm(aux_vars, aux_N, cna_arm_N, aux_label, aux_caption, aux_href)
+```
+
+###
+
+```{r main_cna_tierI}
+if(is_cna_gene){aux_vars <- cna %>% filter(NO_FLAGS & TIER_I); aux_href <- "#plot_cna"} else {aux_vars <- cna; aux_href <- NULL}
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 0, "0 CNAs", ifelse(aux_N == 1, aux_vars$LABEL, paste0(aux_N, " Tier I")))
+aux_caption <- ifelse(aux_N <= 1, "Tier I", paste(sort(aux_vars$LABEL), collapse = ", "))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier IA"], "grey"), href  = aux_href)
+
+rm(aux_vars, aux_N, aux_label, aux_caption, aux_href)
+```
+
+###
+
+```{r main_cna_tierII}
+if(is_cna_gene){aux_vars <- cna %>% filter(NO_FLAGS & TIER_II); aux_href <- "#plot_cna"} else {aux_vars <- cna; aux_href <- NULL}
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 0, "0 CNAs", ifelse(aux_N == 1, aux_vars$LABEL, paste0(aux_N, " Tier II")))
+aux_caption <- ifelse(aux_N <= 1, "Tier II", paste(sort(aux_vars$LABEL), collapse = ", "))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier IIC"], "grey"), href  = aux_href)
+
+rm(aux_vars, aux_N, aux_label, aux_caption, aux_href)
+```
+
+###
+
+```{r main_cna_tierIII}
+if(is_cna_gene){aux_vars <- cna %>% filter(NO_FLAGS & TIER_III); aux_href <- "#plot_cna"} else {aux_vars <- cna; aux_href <- NULL}
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 0, "0 CNAs", paste0(aux_N, " Tier III"))
+aux_caption <- ifelse(aux_N == 0, "Tier III", paste(sort(aux_vars$LABEL), collapse = ", "))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier III"], "grey"), href  = aux_href)
+
+rm(aux_vars, aux_N, aux_label, aux_caption, aux_href)
+```
+
+
+
+Column
+-------------------------------------
+
+###
+
+```{r main_fusion}
+if(is_fusion){aux_vars <- fusion %>% filter(NO_FLAGS); aux_href <- "#overview_fusion"} else {aux_vars <- fusion; aux_href <- NULL}
+aux_N <- nrow(aux_vars)
+aux_label <- "Fusion"
+aux_caption <- paste0(aux_N, " fusions TierI-III")
+
+valueBox(aux_label, color = "black", caption = aux_caption, href  = aux_href)
+
+rm(aux_vars, aux_N, aux_label, aux_caption, aux_href)
+```
+
+###
+
+```{r main_fusion_tierI}
+if(is_fusion){aux_vars <- fusion %>% filter(NO_FLAGS & TIER_I); aux_href <- "#plot_fusion"} else {aux_vars <- fusion; aux_href <- NULL}
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 0, "0 fusions", ifelse(aux_N == 1, aux_vars$LABEL, paste0(aux_N, " Tier I")))
+aux_caption <- ifelse(aux_N <= 1, "Tier I", paste(unique(sort(aux_vars$LABEL)), collapse = ", "))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier IA"], "grey"), href  = aux_href)
+
+rm(aux_vars, aux_N, aux_label, aux_caption, aux_href)
+```
+
+###
+
+```{r main_fusion_tierII}
+if(is_fusion){aux_vars <- fusion %>% filter(NO_FLAGS & TIER_II); aux_href <- "#plot_fusion"} else {aux_vars <- fusion; aux_href <- NULL}
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 0, "0 fusions", ifelse(aux_N == 1, aux_vars$LABEL, paste0(aux_N, " Tier II")))
+aux_caption <- ifelse(aux_N <= 1, "Tier II", paste(unique(sort(aux_vars$LABEL)), collapse = ", "))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier IIC"], "grey"), href  = aux_href)
+
+rm(aux_vars, aux_N, aux_label, aux_caption, aux_href)
+```
+
+###
+
+```{r main_fusion_tierIII}
+if(is_fusion){aux_vars <- fusion %>% filter(NO_FLAGS & TIER_III); aux_href <- "#plot_fusion"} else {aux_vars <- fusion; aux_href <- NULL}
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 0, "0 fusions", paste0(aux_N, " Tier III"))
+aux_caption <- ifelse(aux_N == 0, "Tier III", paste(sort(aux_vars$LABEL), collapse = ", "))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier III"], "grey"), href  = aux_href)
+
+rm(aux_vars, aux_N, aux_label, aux_caption, aux_href)
+```
+
+
+
+
+Column
+-------------------------------------
+
+###
+
+```{r main_splicing}
+if(is_splicing){aux_vars <- splicing %>% filter(NO_FLAGS); aux_href <- "#overview_splicing"} else {aux_vars <- splicing; aux_href <- NULL}
+aux_N <- nrow(aux_vars)
+aux_label <- "Splicing"
+aux_caption <- paste0(aux_N, " variants TierI-III")
+
+valueBox(aux_label, color = "black", caption = aux_caption, href  = aux_href)
+
+rm(aux_vars, aux_N, aux_label, aux_caption, aux_href)
+```
+
+###
+
+```{r main_splicing_tierI}
+if(is_splicing){aux_vars <- splicing %>% filter(NO_FLAGS & TIER_I); aux_href <- "#plot_splicing"} else {aux_vars <- splicing; aux_href <- NULL}
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 0, "0 variants", ifelse(aux_N == 1, aux_vars$LABEL, paste0(aux_N, " Tier I")))
+aux_caption <- ifelse(aux_N <= 1, "Tier I", paste(sort(aux_vars$LABEL), collapse = ", "))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier IA"], "grey"), href  = aux_href)
+
+rm(aux_vars, aux_N, aux_label, aux_caption, aux_href)
+```
+
+###
+
+```{r main_splicing_tierII}
+if(is_splicing){aux_vars <- splicing %>% filter(NO_FLAGS & TIER_II); aux_href <- "#plot_splicing"} else {aux_vars <- splicing; aux_href <- NULL}
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 0, "0 variants", ifelse(aux_N == 1, aux_vars$LABEL, paste0(aux_N, " Tier II")))
+aux_caption <- ifelse(aux_N <= 1, "Tier II", paste(sort(aux_vars$LABEL), collapse = ", "))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier IIC"], "grey"), href  = aux_href)
+
+rm(aux_vars, aux_N, aux_label, aux_caption, aux_href)
+```
+
+###
+
+```{r main_splicing_tierIII}
+if(is_splicing){aux_vars <- splicing %>% filter(NO_FLAGS & TIER_III); aux_href <- "#plot_splicing"} else {aux_vars <- splicing; aux_href <- NULL}
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 0, "0 variants", paste0(aux_N, " Tier III"))
+aux_caption <- ifelse(aux_N == 0, "Tier III", paste(sort(aux_vars$LABEL), collapse = ", "))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier III"], "grey"), href  = aux_href)
+
+rm(aux_vars, aux_N, aux_label, aux_caption, aux_href)
+```
+
+
+
+Column
+-------------------------------------
+
+###
+
+```{r main_biomarkers}
+valueBox("Biomarkers", color = "black", caption = "TMB & MSI")
+```
+
+###
+
+```{r main_tmb}
+if(is_tmb){aux_href <- "#tmb"} else{aux_href <- NULL}
+aux_N <- nrow(tmb)
+aux_label <- ifelse(aux_N, paste0(tmb$TmbPerMb, " mut/Mb"), "ND")
+
+valueBox(aux_label, caption = "TMB estimate", color = ifelse(aux_N, all_colors["primary"], "grey"), href  = aux_href)
+
+rm(aux_N, aux_label, aux_href)
+```
+
+###
+
+```{r main_msi}
+if(is_msi){aux_href <- "#msi"} else{aux_href <- NULL}
+aux_N <- nrow(msi)
+aux_label <- ifelse(aux_N, paste0(msi$MSI_PCT, "% MSI"), "ND")
+
+valueBox(aux_label, caption = "MSI estimate", color = ifelse(aux_N, all_colors["primary"], "grey"), href  = aux_href)
+
+rm(aux_N, aux_label, aux_href)
+```
+  

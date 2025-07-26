@@ -1,0 +1,324 @@
+
+Overview {#overview_splicing data-orientation=rows data-navmenu="Splicing"}
+==================================================================
+
+Row
+-------------------------------------
+
+###
+
+```{r splicing_overview}
+aux_vars <- splicing %>% filter(NO_FLAGS)
+aux_N <- nrow(aux_vars)
+aux_label <- "Splicing"
+aux_caption <- paste0(aux_N, " variants TierI-III")
+
+valueBox(aux_label, color = "black", caption = aux_caption, href  = "#main")
+
+rm(aux_vars, aux_N, aux_label, aux_caption)
+```
+
+###
+
+```{r splicing_overview_tierI}
+aux_vars <- splicing %>% filter(NO_FLAGS & TIER_I)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 1, aux_vars$LABEL, paste0(aux_N, " Tier I"))
+aux_caption <- ifelse(aux_N == 0, 
+  ifelse(doid %in% ".", "strong clinical significance (No Tier I variants due to unknown tumor type)", "strong clinical significance"), 
+  ifelse(aux_N == 1, "Tier I (strong clinical significance)", 
+    paste0(paste(sort(aux_vars$LABEL), collapse = ", "), " (strong clinical significance)")))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier IA"], "grey"), href  = "#plot_splicing")
+
+rm(aux_vars, aux_N, aux_label, aux_caption)
+```
+
+###
+
+```{r splicing_overview_tierII}
+aux_vars <- splicing %>% filter(NO_FLAGS & TIER_II)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N == 1, aux_vars$LABEL, paste0(aux_N, " Tier II"))
+aux_caption <- ifelse(aux_N == 0, "potential clinical significance", ifelse(
+  aux_N == 1, "Tier II (potential clinical significance)", 
+  paste0(paste(sort(aux_vars$LABEL), collapse = ", "), " (potential clinical significance)")))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier IIC"], "grey"), href  = "#plot_splicing")
+
+rm(aux_vars, aux_N, aux_label, aux_caption)
+```
+
+###
+
+```{r splicing_overview_tierIII}
+aux_vars <- splicing %>% filter(NO_FLAGS & TIER_III)
+aux_N <- nrow(aux_vars)
+aux_label <- paste0(aux_N, " Tier III")
+aux_caption <- ifelse(aux_N == 0, "unknown clinical significance", 
+  paste0(paste(unique(sort(aux_vars$LABEL)), collapse = ", "), " (unknown clinical significance)"))
+
+valueBox(aux_label, caption = aux_caption, color = ifelse(aux_N, all_colors["Tier III"], "grey"), href  = "#plot_splicing")
+
+rm(aux_vars, aux_N, aux_label, aux_caption)
+```
+
+
+
+Row {data-height=350}
+-------------------------------------
+
+### Splicing CALLING
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["OK"]`">&nbsp;PASS&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(splicing_called)`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;LowSupport (AD<`r splicing_calling_min_ad`)&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(splicing %>% filter(LowSupport))`</font></b><br>
+
+
+### Splicing FLAGS
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["OK"]`">&nbsp;OK (no flags)&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(splicing %>% filter(NO_FLAGS))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;NoCancerEnriched&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(splicing_called %>% filter(!CancerEnriched))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;LowAD (<`r splicing_flag_min_ad`)&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(splicing_called %>% filter(LowAD))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;LowDP (<`r splicing_flag_min_dp`)&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(splicing_called %>% filter(LowDP))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["FAIL"]`">&nbsp;LowVAF (<`r splicing_flag_min_vaf*100`%)&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(splicing_called %>% filter(LowVAF))`</font></b><br>
+
+
+
+### Clinical status (AMP/ASCO/CAP)
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IA"]`">&nbsp;Tier I&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(splicing_called %>% filter(TIER_I))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IIC"]`">&nbsp;Tier II&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(splicing_called %>% filter(TIER_II))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier III"]`">&nbsp;Tier III&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(splicing_called %>% filter(TIER_III))`</font></b><br>
+
+* <font style="color:white; font-size: 125%; font-weight: bold; background-color:`r all_colors["Tier IV"]`">&nbsp;Tier IV&nbsp;&nbsp;</font></a> <b><font style="font-size: 125%">:&nbsp;`r nrow(splicing_called %>% filter(TIER_IV))`</font></b><br>
+
+
+
+### Tier I/II variants
+
+```{r splicing_overview_tierI-II_ok}
+aux_vars <- splicing_called %>% filter(CLIN_RELEVANT & NO_FLAGS)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(unique(sort(aux_vars$LABEL)), collapse = " <br>"), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, all_colors["Tier IA"], "white")
+```
+
+#### **OK** (N=`r aux_N`)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+```{r splicing_overview_tierI-II_flagged}
+aux_vars <- splicing_called %>% filter(CLIN_RELEVANT & !NO_FLAGS)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(unique(sort(aux_vars$LABEL)), collapse = " <br>"), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, all_colors["Tier IA"], "white")
+```
+
+#### **Flagged** (N=`r aux_N`)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+
+### Cancer splicing variants
+
+```{r splicing_overview_ok}
+aux_vars <- splicing_called %>% filter(NO_FLAGS)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(unique(sort(aux_vars$LABEL)), collapse = " <br>"), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, all_colors["OK"], "white")
+```
+
+#### **OK** (N=`r aux_N`)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+```{r splicing_overview_flagged}
+aux_vars <- splicing_called %>% filter(!NO_FLAGS & CancerEnriched)
+aux_N <- nrow(aux_vars)
+aux_label <- ifelse(aux_N, paste(unique(sort(aux_vars$LABEL)), collapse = " <br>"), "ND")
+aux_color <- ifelse(aux_N, "white", "black")
+aux_bg <- ifelse(aux_N, all_colors["FAIL"], "white")
+```
+
+#### **Flagged** (N=`r aux_N`)
+
+* <font style="color:`r aux_color`; font-size: 125%; background-color:`r aux_bg`">&nbsp;`r aux_label`&nbsp;</font></b><br>
+
+```{r}
+rm(aux_vars, aux_N, aux_label, aux_color, aux_bg)
+```
+
+
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+
+:::: {.header-text}
+Clinical evidences (CIViC resource)
+:::
+
+### **Predictive**
+
+```{r splicing_overview_predictive}
+aux_df <- civic_predictive %>% filter(MOLECULAR_ID %in% splicing_called$CIViC_MOLECULAR_ID)
+aux_kable <- kable(aux_df, align = "c") %>% 
+  kable_styling(bootstrap_options = c("striped", "condensed"), fixed_thead = TRUE, font_size = 16)
+
+if(nrow(aux_df)){column_spec(aux_kable, 1, bold = TRUE)} else {aux_kable}
+
+rm(aux_df, aux_kable)
+```
+
+### **Prognostic**
+
+```{r splicing_overview_prognostic}
+aux_df <- civic_prognostic %>% filter(MOLECULAR_ID %in% splicing_called$CIViC_MOLECULAR_ID)
+aux_kable <- kable(aux_df, align = "c") %>% 
+  kable_styling(bootstrap_options = c("striped", "condensed"), fixed_thead = TRUE, font_size = 16)
+
+if(nrow(aux_df)){column_spec(aux_kable, 1, bold = TRUE)} else {aux_kable}
+
+rm(aux_df, aux_kable)
+```
+
+### **Diagnostic**
+
+```{r splicing_overview_diagnostic}
+aux_df <- civic_diagnostic %>% filter(MOLECULAR_ID %in% splicing_called$CIViC_MOLECULAR_ID)
+aux_kable <- kable(aux_df, align = "c") %>% 
+  kable_styling(bootstrap_options = c("striped", "condensed"), fixed_thead = TRUE, font_size = 16)
+
+if(nrow(aux_df)){column_spec(aux_kable, 1, bold = TRUE)} else {aux_kable}
+
+rm(aux_df, aux_kable)
+```
+
+
+
+Gene visualization {#plot_splicing data-orientation=rows data-navmenu="Splicing"}
+==================================================================
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+
+```{r splicing_plots, results = "asis"}
+for(n in seq_len(nrow(splicing_plot))) {
+  id <- paste0(splicing_plot[n, "GENE"], "_", splicing_plot[n, "REGION_AFFECTED"], "_", gsub(":", "-", splicing_plot[n, "VAR"]))
+  aux_plot <- list.files(pattern = paste0(sample, "_RNA_Splicing_", id, ".png"))
+  
+  if(length(aux_plot)){cat(sprintf(paste0("\n### **", splicing_plot[n, "LABEL"], "**\n![](%s)\n"), aux_plot))}
+  
+  rm(id, aux_plot)
+}
+rm(n)
+```
+
+```{r, results = 'asis', eval = nrow(splicing_plot) == 0}
+cat("\n* **NO** Splicing plots.\n")
+```
+
+
+
+Datatable {data-orientation=columns data-navmenu="Splicing"}
+==================================================================
+
+Column {.sidebar data-width=250}
+-----------------------------------------------
+
+```{r splicing_filters, eval = nrow(splicing_table) != 0}
+shared_data <- SharedData$new(splicing_table)
+
+filter_checkbox("SPLICING_OK", "OK (no flags)", shared_data, ~NO_FLAGS, columns = 2, allLevels = TRUE)
+filter_checkbox("FUSION_CLIN_STATUS", "CLINICAL status", shared_data, ~CLIN_STATUS, columns = 2, allLevels = TRUE)
+filter_checkbox("SPLICING_WHITELIST", "WHITELIST variant", shared_data, ~WHITELIST_SPLICING, columns = 2, allLevels = TRUE)
+filter_checkbox("SPLICING_MUTATION", "Splice site MUTATION", shared_data, ~MUTATED_SITE, columns = 2, allLevels = TRUE)
+filter_checkbox("SPLICING_WHITELIST_GENE", "WHITELIST gene", shared_data, ~WHITELIST_GENE, columns = 2, allLevels = TRUE)
+filter_checkbox("SPLICING_ONCOGENE", "ONCOGENE", shared_data, ~ONCOGENE, columns = 2, allLevels = TRUE)
+filter_checkbox("SPLICING_TSG", "TSG", shared_data, ~TSG, columns = 2, allLevels = TRUE)
+filter_checkbox("SPLICING_CancerEnriched", "CancerEnriched", shared_data, ~CancerEnriched, columns = 2, allLevels = TRUE)
+filter_checkbox("SPLICING_LowAD", "LowAD", shared_data, ~LowAD, columns = 2, allLevels = TRUE)
+filter_checkbox("SPLICING_LowDP", "LowDP", shared_data, ~LowDP, columns = 2, allLevels = TRUE)
+filter_checkbox("SPLICING_LowVAF", "LowVAF", shared_data, ~LowVAF, columns = 2, allLevels = TRUE)
+
+filter_select("SPLICING_GENE", "GENE", shared_data, ~GENE, multiple = TRUE)
+filter_select("SPLICING_FLAGS", "FLAGS", shared_data, ~FLAGS, multiple = TRUE)
+
+filter_slider("SPLICING_AF", "Allelic fraction (AF)", shared_data, ~AF, min = 0, max = 1, step = 0.1, ticks = TRUE)
+filter_slider("SPLICING_AD", "Splicing-supporting reads", shared_data, ~AD, ticks = FALSE)
+filter_slider("SPLICING_DP", "Sequencing depth (DP)", shared_data, ~DP_MAX, ticks = FALSE)
+filter_slider("SPLICING_AF_SAMPLES", "Sample frequency", shared_data, ~AF_SAMPLES, min = 0, max = 1, step = 0.1, ticks = TRUE)
+```
+
+
+Column
+---------------------------------------------
+
+### Splicing variants
+
+```{r splicing_table, eval = nrow(splicing_table) != 0}
+datatable(
+  shared_data, class = "display", extensions = c("Buttons", "ColReorder"), rownames = FALSE,
+  options = list(
+    bPaginate = FALSE, searchHighlight = TRUE, dom = "BfrtiR", buttons = c("copy", "csv","excel"),
+    initComplete = JS(
+    "function(settings, json) {",
+    paste0("$(this.api().table().header()).css({'background-color': '", all_colors["primary"], "', 'color': '#fff'});"),
+    "}"))) %>%
+  formatStyle("CLIN_RELEVANT", target = "row", fontWeight = styleEqual("TRUE", "bold"), color = styleEqual("TRUE", all_colors["CLIN_RELEVANT"])) %>%
+  formatStyle("FLAGS", "NO_FLAGS", fontWeight = styleEqual(c("TRUE", "FALSE"), rep("bold", 2)), 
+    color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("CLIN_STATUS", fontWeight = styleEqual(clinical_levels, rep("bold", length(clinical_levels))),
+    color = styleEqual(clinical_levels, all_colors[clinical_levels])) %>%
+  formatStyle("CALLING", "PASS", fontWeight = styleEqual(c("TRUE", "FALSE"), rep("bold", 2)), 
+    color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("CLIN_RELEVANT", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("WHITELIST_SPLICING", target = "row", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("GENE", "WHITELIST_GENE", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("WHITELIST_GENE", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("ONCOGENE", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("TSG", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("DRIVER", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("CANONICAL_DRIVER", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("PASS", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("LowSupport", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("NO_FLAGS", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("CancerEnriched", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("LowAD", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("LowDP", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("LowVAF", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("MUTATED_SITE", fontWeight = styleEqual("TRUE", "bold"))
+
+rm(shared_data)
+```
+
+
+```{r, results = 'asis', eval = nrow(splicing_table) == 0}
+cat("\n* **NO** Splicing results.\n")
+```
+
+

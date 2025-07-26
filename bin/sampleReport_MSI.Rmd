@@ -1,0 +1,157 @@
+
+MSI {#msi data-orientation=rows data-navmenu="Biomarkers"}
+==================================================================
+
+
+
+Row
+-------------------------------------
+
+###
+
+```{r msi_overview}
+aux_label <- "MSI"
+aux_caption <- paste0("Microsatellite (MS) Instability")
+
+valueBox(aux_label, color = "black", caption = aux_caption, href  = "#main")
+
+rm(aux_label, aux_caption)
+```
+
+###
+
+```{r msi_PCT}
+aux_N <- nrow(msi)
+aux_label <- ifelse(aux_N, paste0(msi$MSI_PCT, "% MSI"), "ND")
+
+valueBox(aux_label, caption = "MSI estimate", color = ifelse(aux_N, all_colors["primary"], "grey"))
+
+rm(aux_N, aux_label)
+```
+
+###
+
+```{r msi_MSsites}
+aux_N <- nrow(msi)
+aux_label <- ifelse(aux_N, paste0(msi$MsiSites), "ND")
+
+valueBox(aux_label, caption = "MSI sites", color = ifelse(aux_N, all_colors["primary"], "grey"))
+
+rm(aux_N, aux_label)
+```
+
+###
+
+```{r msi_totalsites}
+aux_N <- nrow(msi)
+aux_label <- ifelse(aux_N, paste0(msi$TotalSites), "ND")
+
+valueBox(aux_label, caption = "Total MS sites", color = ifelse(aux_N, all_colors["primary"], "grey"))
+
+rm(aux_N, aux_label)
+```
+
+
+
+Row
+-------------------------------------
+
+### {data-width=100}
+
+```{r msi_filters, eval = nrow(msi_table) != 0}
+shared_data <- SharedData$new(msi_table)
+
+filter_checkbox("VAR_OK", "OK (no flags)", shared_data, ~NO_FLAGS, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_PASS", "PASS", shared_data, ~PASS, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_CLIN_STATUS", "CLINICAL status", shared_data, ~CLIN_STATUS, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_ONCOGENICITY", "ONCOGENICITY", shared_data, ~ONCOGENICITY, columns = 1, allLevels = TRUE)
+if(is_panel_hotspots){filter_checkbox("VAR_PANEL_HOTSPOT", "Panel HOTSPOT", shared_data, ~PANEL_HOTSPOT, columns = 2, allLevels = TRUE)}
+filter_checkbox("VAR_PANEL_BLACKLIST", "Panel blacklist", shared_data, ~PANEL_BLACKLIST, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_WHITELIST", "WHITELIST gene", shared_data, ~GENE_WHITELIST, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_MMR", "MMR gene", shared_data, ~MMR_GENE, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_NMD", "NMD escape", shared_data, ~NMD_ESCAPE, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_ClinVar_Pathogenic", "ClinVar pathogenic", shared_data, ~ClinVar_PATHOGENIC, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_Predictor_Pathogenic", "PREDICTOR pathogenic", shared_data, ~PREDICTOR_PATHOGENIC, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_Predictor_Benign", "PREDICTOR benign", shared_data, ~PREDICTOR_BENIGN, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_CLASS", "CLASS", shared_data, ~CLASS, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_OVERLAP_CALLERS", "CALLERS (overlap)", shared_data, ~OVERLAP_CALLERS, columns = 4)
+filter_checkbox("VAR_MATCH_CALLERS", "CALLERS (match)", shared_data, ~MATCH_CALLERS, columns = 4)
+filter_checkbox("VAR_CONSEQUENCE", "CONSEQUENCE (VEP)", shared_data, ~CONSEQUENCE, columns = 1)
+filter_checkbox("VAR_IMPACT", "IMPACT (VEP)", shared_data, ~IMPACT, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_HOTSPOT", "Cancer HOTSPOT", shared_data, ~CANCER_HOTSPOT, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_ProblematicRegion", "ProblematicRegion", shared_data, ~PROBLEMATIC_REGION, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_RECURRENT", "Recurrent", shared_data, ~RECURRENT, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_ONCOGENE", "ONCOGENE", shared_data, ~ONCOGENE, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_TSG", "TSG", shared_data, ~TSG, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_CODING", "CODING", shared_data, ~CODING, columns = 2, allLevels = TRUE)
+
+filter_select("VAR_GENE", "GENE", shared_data, ~GENE, multiple = TRUE)
+filter_select("VAR_CHROM", "CHROMOSOME", shared_data, ~CHROM, multiple = TRUE, allLevels = TRUE)
+filter_select("VAR_CALLERS", "CALLERS", shared_data, ~CALLERS, multiple = TRUE)
+filter_select("VAR_FLAGS", "FLAGS", shared_data, ~FLAGS, multiple = TRUE)
+filter_select("VAR_FILTER", "FILTER", shared_data, ~FILTER, multiple = TRUE)
+
+filter_slider("VAR_ONCO_POINTS", "Oncogenicity points", shared_data, ~ONCO_POINTS, min = 0, max = 20, step = 1, ticks = TRUE)
+filter_slider("VAR_AF", "Allelic fraction (AF)", shared_data, ~AF, min = 0, max = 1, step = 0.05, ticks = TRUE)
+filter_slider("VAR_DP", "Sequencing depth (DP)", shared_data, ~DP, ticks = FALSE)
+filter_slider("VAR_AF_SAMPLES", "Sample frequency", shared_data, ~AF_SAMPLES, min = 0, max = 1, step = 0.1, ticks = TRUE)
+```
+
+
+### Mutations (Tier I-III) in MMR genes
+
+```{r mis_table, eval = nrow(msi_table) != 0}
+datatable(
+  shared_data, class = "display", extensions = c("Buttons", "ColReorder"), rownames = FALSE,
+  options = list(
+    bPaginate = FALSE, searchHighlight = TRUE, dom = "BfrtiR", buttons = c("copy", "csv","excel"),
+    initComplete = JS(
+    "function(settings, json) {",
+    paste0("$(this.api().table().header()).css({'background-color': '", all_colors["primary"], "', 'color': '#fff'});"),
+    "}"))) %>%
+  formatStyle("CLIN_RELEVANT", target = "row", fontWeight = styleEqual("TRUE", "bold"), color = styleEqual("TRUE", all_colors["CLIN_RELEVANT"])) %>%
+  formatStyle("ONCOGENICITY", target = "row", fontWeight = styleEqual(vars_onco_levels[1:2], rep("bold", 2))) %>%
+  formatStyle("FLAGS", "NO_FLAGS", fontWeight = styleEqual(c("TRUE", "FALSE"), rep("bold", 2)), 
+    color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("CLIN_STATUS", fontWeight = styleEqual(clinical_levels, rep("bold", length(clinical_levels))),
+    color = styleEqual(clinical_levels, all_colors[clinical_levels])) %>%
+  formatStyle("ONCOGENICITY", fontWeight = styleEqual(vars_onco_levels, rep("bold", length(vars_onco_levels))),
+    color = styleEqual(vars_onco_levels, all_colors[vars_onco_levels])) %>%
+  formatStyle("FILTER", "PASS", fontWeight = styleEqual(c("TRUE", "FALSE"), rep("bold", 2)), 
+    color = styleEqual(c("TRUE", "FALSE"), c(all_colors["OK"], all_colors["FAIL"]))) %>%
+  formatStyle("CLIN_RELEVANT", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("PANEL_HOTSPOT", color = styleEqual("TRUE", all_colors["OK"])) %>%
+  formatStyle("GENE", "GENE_WHITELIST", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("GENE_WHITELIST", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("MMR_GENE", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("NMD_ESCAPE", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("ClinVar_PATHOGENIC", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("PREDICTOR_PATHOGENIC", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("PASS", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("LowCallers", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("LowAD", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("LowDP", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("LowVAF", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("PANEL_BLACKLIST", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("NO_FLAGS", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("CANCER_HOTSPOT", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("GERMLINE", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("PROBLEMATIC_REGION", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("RECURRENT", color = styleEqual(c("TRUE", "FALSE"), c(all_colors["FAIL"], all_colors["OK"]))) %>%
+  formatStyle("ONCOGENE", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("TSG", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("DRIVER", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("CANONICAL_DRIVER", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("CODING", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("NONCODING", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("MANE_PLUS_CLINICAL", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("GENE", fontWeight = "bold")
+
+rm(shared_data)
+```
+
+
+```{r msi_notable, results = 'asis', eval = nrow(msi_table) == 0}
+cat("\n* **NO** mutations in MMR genes.\n")
+```
+

@@ -1,0 +1,131 @@
+
+TMB {#tmb data-orientation=rows data-navmenu="Biomarkers"}
+==================================================================
+
+Row
+-------------------------------------
+
+###
+
+```{r tmb_overview}
+aux_label <- "TMB"
+aux_caption <- paste0("Tumor Mutational Burden")
+
+valueBox(aux_label, color = "black", caption = aux_caption, href  = "#main")
+
+rm(aux_label, aux_caption)
+```
+
+###
+
+```{r tmb_value}
+aux_N <- nrow(tmb)
+aux_label <- ifelse(aux_N, paste0(tmb$TmbPerMb, " mut/Mb"), "ND")
+
+valueBox(aux_label, caption = "TMB estimate", color = ifelse(aux_N, all_colors["primary"], "grey"))
+
+rm(aux_N, aux_label)
+```
+
+###
+
+```{r tmb_value_nonsyn}
+aux_N <- nrow(tmb)
+aux_label <- ifelse(aux_N, paste0(tmb$NonsynonymousTmbPerMb, " mut/Mb"), "ND")
+
+valueBox(aux_label, caption = "Non-synonymous TMB", color = ifelse(aux_N, all_colors["primary"], "grey"))
+
+rm(aux_N, aux_label)
+```
+
+###
+
+```{r tmb_eligible}
+aux_N <- nrow(tmb)
+aux_label <- ifelse(aux_N, paste0(tmb$EligibleVars), "ND")
+
+valueBox(aux_label, caption = "Eligible mutations", color = ifelse(aux_N, all_colors["primary"], "grey"))
+
+rm(aux_N, aux_label)
+```
+
+###
+
+```{r tmb_eligible_nonsyn}
+aux_N <- nrow(tmb)
+aux_label <- ifelse(aux_N, paste0(tmb$EligibleNonsynonymousVars), "ND")
+
+valueBox(aux_label, caption = "Non-syn mutations", color = ifelse(aux_N, all_colors["primary"], "grey"))
+
+rm(aux_N, aux_label)
+```
+
+###
+
+```{r tmb_regionsize}
+aux_N <- nrow(tmb)
+aux_label <- ifelse(aux_N, paste0(round(tmb$EffectiveRegionsSizeMb, 3), " Mb"), "ND")
+
+valueBox(aux_label, caption = "Effective region size", color = ifelse(aux_N, all_colors["primary"], "grey"))
+
+rm(aux_N, aux_label)
+```
+
+
+
+Row
+-------------------------------------
+
+### {data-width=111}
+
+```{r tmb_filters, eval = nrow(tmb_trace) != 0}
+shared_data <- SharedData$new(tmb_trace)
+
+filter_checkbox("VAR_CLIN_STATUS", "CLINICAL status", shared_data, ~ClinStatus, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_ONCOGENICITY", "ONCOGENICITY", shared_data, ~Oncogenicity, columns = 1, allLevels = TRUE)
+filter_checkbox("VAR_CONSEQUENCE", "CONSEQUENCE (VEP)", shared_data, ~Consequence, columns = 1)
+filter_checkbox("VAR_CLASS", "CLASS", shared_data, ~VariantClass, columns = 2, allLevels = TRUE)
+filter_checkbox("VAR_NonSyn", "Non-synonymous", shared_data, ~Nonsynonymous, columns = 2, allLevels = TRUE)
+
+filter_select("VAR_GENE", "GENE", shared_data, ~GeneName, multiple = TRUE)
+filter_select("VAR_CHROM", "CHROMOSOME", shared_data, ~Chromosome, multiple = TRUE)
+
+filter_slider("VAR_AF", "Allelic fraction (VAF)", shared_data, ~VAF, min = 0, max = 1, step = 0.05, ticks = TRUE)
+filter_slider("VAR_DP", "Total depth", shared_data, ~TotalDepth, ticks = FALSE)
+filter_slider("VAR_DP", "ALT depth", shared_data, ~AltDepth, ticks = FALSE)
+```
+
+
+### TMB eligible mutations
+
+```{r tmb_table, eval = nrow(tmb_trace) != 0}
+datatable(
+  shared_data, class = "display", extensions = c("Buttons", "ColReorder"), rownames = FALSE,
+  options = list(
+    bPaginate = FALSE, searchHighlight = TRUE, dom = "BfrtiR", buttons = c("copy", "csv","excel"),
+    initComplete = JS(
+    "function(settings, json) {",
+    paste0("$(this.api().table().header()).css({'background-color': '", all_colors["primary"], "', 'color': '#fff'});"),
+    "}"))) %>%
+  formatStyle("ClinStatus", target = "row", fontWeight = styleEqual("TRUE", "bold"), color = styleEqual("TRUE", all_colors["CLIN_RELEVANT"])) %>%
+  formatStyle("ClinStatus", fontWeight = styleEqual(clinical_levels, rep("bold", length(clinical_levels))),
+    color = styleEqual(clinical_levels, all_colors[clinical_levels])) %>%
+  formatStyle("Oncogenicity", fontWeight = styleEqual(vars_onco_levels, rep("bold", length(vars_onco_levels))),
+    color = styleEqual(vars_onco_levels, all_colors[vars_onco_levels])) %>%
+  formatStyle("MaxpVAF", fontWeight = "bold") %>%
+  formatStyle("VAF", fontWeight = "bold") %>%
+  formatStyle("TotalDepth", fontWeight = "bold") %>%
+  formatStyle("AltDepth", fontWeight = "bold") %>%
+  formatStyle("Nonsynonymous", fontWeight = styleEqual("TRUE", "bold")) %>%
+  formatStyle("Consequence", "Nonsynonymous", fontWeight = styleEqual("TRUE", "bold"))
+
+rm(shared_data)
+```
+
+
+```{r tmb_notable, results = 'asis', eval = nrow(tmb_trace) == 0}
+cat("\n* **NO** TMB results.\n")
+```
+
+
+

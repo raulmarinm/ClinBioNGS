@@ -1,0 +1,15 @@
+# Nextflow & logs
+work/
+.nextflow/
+.nextflow.*
+*.html
+*.pdf
+*.log
+
+# Singularity images
+resources/singularity
+*.sif
+*.simg
+*.img
+
+# Other directories or files
