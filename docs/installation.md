@@ -23,7 +23,7 @@ nextflow run main.nf --prepareImages --runName setup
 
 This will download the SIF images (8.7 GB) on their specific folder (`resources/singularity`). SIF images can also be downloaded manually and placed in their folder. 
 
-See the [nextflow.config](nextflow.config) file for consulting or modifiying the tool versions and links. More details and the list of software tools are available in the [Software](docs/software.md) section.
+See the [nextflow.config](../nextflow.config) file for consulting or modifiying the tool versions and links. More details and the list of software tools are available in the [Software](software.md) section.
 
 ## 4. Prepare pipeline resources
 
@@ -37,4 +37,4 @@ This will download general resources (~200 GB). Panel-specific resources (e.g., 
 
 This step can also be performed during the anaylsis. ClinBioNGS checks internally if each resource exists in the specific folder (`resources/<...>`) and generates it in case of not finding it.
 
-See the [nextflow.config](nextflow.config) file for consulting or modifiying the resources versions and links. More details and the list of resources are available in the [Resources](docs/resources.md) section.
+See the [nextflow.config](../nextflow.config) file for consulting or modifiying the resources versions and links. More details and the list of resources are available in the [Resources](resources.md) section.
