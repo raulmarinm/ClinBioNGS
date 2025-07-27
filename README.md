@@ -15,47 +15,12 @@ ClinBioNGS integrates consensus small variant calling, panel-specific CNA and MS
 
 See the [docs/](docs) folder for full documentation:
 
-- Overview
-- Installation
-- Configuration
-- Input formats
-- Output structure
-- Test run
-
-## 🚀 Key Features
-
-- 🔬 **Comprehensive variant detection**:
-  - Small variants (SNVs/indels)
-  - Copy-number alterations (CNAs)
-  - Gene fusions and splice variants (RNA-seq)
-  - Complex biomarkers: TMB and MSI
-
-- 🧩 **Panel-agnostic and modular**:
-  - Supports multiple targeted NGS panels
-    - Full analysis: Illumina TruSight™ Oncology 500 (TSO500), Thermo Fisher Oncomine™ Precision Assay (OPA), and Thermo Fisher Oncomine™ Comprehensive Assay
-  - Adaptable to other hybrid-capture or amplicon panels
-
-- ⚙️ **Reproducible and portable**:
-  - Built with Nextflow and containerized using Singularity images
-  - Compatible with SLURM, SGE, and local environments
-
-- 🧠 **Smart integration**:
-  - Consensus small variant calling with multiple callers (e.g. Mutect2, Pisces, VarDict, Octopus, and TVC)
-  - Panel-specific reference models for CNAs (e.g, TSO500, OPA, OCA) and MSI (e.g., TSO500)
-  - Longitudinal variant tracking with internal database
-
-- 🩺 **Clinically oriented outputs**:
-  - Automated variant annotation and prioritization
-  - Interactive, user-friendly HTML reports
-  - Quality control summaries and flagging systems
-
-- 🧪 **Validated and benchmarked**:
-  - High analytical accuracy in small variant detection with SEQC2 public datasets
-  - Real-world performance evaluated in over 2000 clinical tumor samples
-
-- 🆓 **Open and accessible**:
-  - Freely available for research and academic use
-  - Fully documented and customizable
+- [Overview](docs/overview.md)
+- [Installation](docs/installation.md)
+  - [Software](docs/software.md)
+  - [Resources](docs/resources.md)
+- [Configuration](docs/configuration.md)
+- [Input files](docs/input_files.md)
 
 ## 📦 Requirements
 
@@ -65,8 +30,6 @@ See the [docs/](docs) folder for full documentation:
 
 ## 🔧 Installation
 
-See [nextflow.io](https://www.nextflow.io/docs/latest/install.html) and [apptainer.org](https://apptainer.org/docs/user/latest/quick_start.html#installation) for instructions.
-
 Clone the repository:
 
 ```bash
@@ -75,13 +38,15 @@ cd ClinBioNGS
 chmod +x bin/*
 ```
 
-The Singularity Image Format (SIF) images are expected to be found on the local computer before running the analysis. This will download the SIF images (**8.7Gb**) on their specific folder (`./resources/singularity`).
+ClinBioNGS includes pre-analysis modules to automatically download and prepare all the containerized tools and resources required for each functional stage of the pipeline. This ensures reproducibility, minimizes manual intervention, and standardizes the analysis across environments.
+
+Download Singularity images:
 
 ```bash
 nextflow run main.nf --prepareImages --runName setup # Profiles (e.g., sge, slurm) can be included
 ```
 
-Resources files can be previously generated to avoid delays during the first analysis. This will perform only the preparation of general resources (**~200Gb**). Panel-specific resources (e.g., manifest files) can be generated with the appropiated configuration.
+Prepare pipeline resources:
 
 ```bash
 nextflow run main.nf --resourcesOnly --runName setup
@@ -89,9 +54,7 @@ nextflow run main.nf --resourcesOnly --runName setup
 rm -r work # optional: delete intermediate files to save space (resources files and logs are copied to the ClinBioNGS folder)
 ```
 
-This step can also be performed during the anaylsis. ClinBioNGS checks internally if each resource exists in the specific folder (`./resources/<...>`) and generates it in case of not finding it.
-
-Now the pipeline is ready for launching the analysis.
+Full lists of software tools and resources can be consulted in [Software](docs/software.md) and [Resources](docs/resources.md) sections.
 
 ## 🧪 Example Run
 
@@ -121,4 +84,3 @@ nextflow run main.nf -profile sge,custom \
 Licensed for research and academic use only. Commercial use requires prior approval. See [LICENSE.md](LICENSE.md).
 
 ## 📣 Citation
-
