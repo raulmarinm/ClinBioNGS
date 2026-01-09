@@ -84,3 +84,8 @@ nextflow run main.nf -profile sge,custom \
 Licensed for research and academic use only. Commercial use requires prior approval. See [LICENSE.md](LICENSE.md).
 
 ## 📣 Citation
+
+If you use **ClinBioNGS** in your research, please cite:
+
+Marín R, Alay A, Ajenjo-Bauza M, et al. ClinBioNGS: A Clinical Bioinformatics Pipeline for Integrated Analysis of Somatic Next-Generation Sequencing Cancer Panels. JCO Clin Cancer Inform. 2026;(10). [doi:10.1200/CCI-25-00221](https://doi.org/10.1200/CCI-25-00221)
+  
