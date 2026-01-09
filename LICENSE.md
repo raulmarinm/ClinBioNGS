@@ -10,12 +10,13 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 2. **Attribution Required**  
    Proper acknowledgment must be given in any publications or derivative works that use or incorporate the Software. Please cite:
-   > [DOI]
 
-3. **No Warranty**  
+   Marín R, Alay A, Ajenjo-Bauza M, et al. ClinBioNGS: A Clinical Bioinformatics Pipeline for Integrated Analysis of Somatic Next-Generation Sequencing Cancer Panels. JCO Clin Cancer Inform. 2026;(10). [doi:10.1200/CCI-25-00221](https://doi.org/10.1200/CCI-25-00221)
+
+4. **No Warranty**  
    The Software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the Software or the use or other dealings in the Software.
 
-4. **Redistribution**  
+5. **Redistribution**  
    Redistribution of modified versions must retain this license and must clearly document the changes made. The name "ClinBioNGS" must not be used to endorse or promote products derived from this software without prior written permission.
 
 By using this Software, you agree to the terms above.
